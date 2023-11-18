@@ -1,0 +1,75 @@
+{
+  "users": [
+    {
+      "email": "asd@mail.ru",
+      "password": "$2a$10$0u8cF1oKLHaNiAeOOBILO.ewvGDg9Mdw8JOE96HXNHd8Uebvvmgru",
+      "firstName": "Максим",
+      "lastName": "Зиновьев",
+      "id": 1
+    },
+    {
+      "email": "Artem.Busov@urfu.me",
+      "password": "$2a$10$BM3Nr.2BlknYSZr5S2CLkeqEh1nU7dfcJ7ZbzlKLf0jXS5WFbiGGq",
+      "firstName": "Артём",
+      "lastName": "Бусов",
+      "id": 2
+    },
+    {
+      "email": "busov.artem@yandex.ru",
+      "password": "$2a$10$PdVBYi00Y.XhwUQjKjMJ8.JqMWHOS.uSRYmJ6z3KxhoHNrYPD9j4y",
+      "firstName": "Галина",
+      "lastName": "Елисеева",
+      "id": 3
+    },
+    {
+      "email": "test@test.ru",
+      "password": "$2a$10$D6Asfr3w9IOIILnT.jz7ceiTxEO1W7uMiZREmv5FTaPgvk8mgRbeG",
+      "firstName": "Никита",
+      "lastName": "Ефимов",
+      "id": 4
+    }
+  ],
+  "students": [
+    {
+      "id": 1,
+      "userId": 2
+    }
+  ],
+  "trainers": [
+    {
+      "id": 1,
+      "userId": 2
+    }
+  ],
+  "admins": [
+    {
+      "id": 1,
+      "userId": 4
+    }
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "name": "ПН-12",
+      "trainerID": 1,
+      "students": [1, 2],
+      "schedule": "asd"
+    }
+  ],
+  "Payments": [
+    {
+      "id": 1,
+      "StudentID": 2,
+      "paymentDate": "2022-10-10",
+      "sum": 500,
+      "status": "done"
+    },
+    {
+      "id": 2,
+      "StudentID": 2,
+      "paymentDate": "2023-10-10",
+      "sum": 600,
+      "status": "awaiting confirmation"
+    }
+  ]
+}
