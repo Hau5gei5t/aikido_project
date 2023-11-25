@@ -8,13 +8,15 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "server:json":"json-server --watch db.json -m ./node_modules/json-server-auth -r routes.json",
+    "server:json": "json-server --watch db.json -m ./node_modules/json-server-auth -r routes.json",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:cv": "vitest run --coverage",
     "dev:full": "concurrently \"npm:dev\" \"npm:server:json\""
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "antd": "^5.11.2",
     "axios": "^1.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

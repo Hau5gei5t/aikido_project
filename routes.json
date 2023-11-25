@@ -1,4 +1,9 @@
 {
   "users": 600,
-  "messages": 600
+  "messages": 600,
+  "students": 600,
+  "trainers": 600,
+  "admins": 600,
+  "groups": 600,
+  "Payments": 600
 }
