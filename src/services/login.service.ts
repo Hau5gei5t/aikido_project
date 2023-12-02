@@ -9,7 +9,6 @@ export const Login = (user:ILogin) => {
         console.log(res.data);
         localStorage.setItem("token", res.data.accessToken);
         localStorage.setItem("user", JSON.stringify(res.data.user));
-        window.location.href = "/";
     })
     .catch((err) => {
         console.log(err);

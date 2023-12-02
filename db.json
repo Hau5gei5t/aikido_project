@@ -52,21 +52,21 @@
       "id": 1,
       "name": "ПН-12",
       "trainerID": 1,
-      "students": [1, 2],
+      "studentsID": [1, 2],
       "schedule": "asd"
     }
   ],
   "Payments": [
     {
       "id": 1,
-      "StudentID": 2,
+      "studentID": 2,
       "paymentDate": "2022-10-10",
       "sum": 500,
       "status": "done"
     },
     {
       "id": 2,
-      "StudentID": 2,
+      "studentID": 2,
       "paymentDate": "2023-10-10",
       "sum": 600,
       "status": "awaiting confirmation"

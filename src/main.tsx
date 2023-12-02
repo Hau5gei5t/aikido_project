@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
+  defer,
+  Params,
   redirect,
   RouterProvider,
 } from "react-router-dom";
@@ -9,6 +11,7 @@ import "./index.css";
 import AuthPage from "./pages/AuthPage";
 import MainPage from "./pages/MainPage";
 import ProfilePage from "./pages/ProfilePage";
+import getUser from "./services/getUser.service";
 
 
 const loadUser = async () => {
@@ -18,6 +21,11 @@ const loadUser = async () => {
   }
   return null;
 };
+const profileLoader = async ({ params }: { params: Params<"UserId"> }) => {
+  return defer({
+    profile: getUser(params.UserId!),
+  });
+};
 
 const router = createBrowserRouter([
   {
@@ -26,23 +34,24 @@ const router = createBrowserRouter([
     element: <MainPage />,
     children: [
       {
-        path: "profile/:UserId",
+        path: "profile/:UserId",//v
+        loader: profileLoader,
         element: <ProfilePage />,
       },
       {
-        path: "groups",
+        path: "groups",//v
         element: <div>groups</div>,
       },
       {
-        path: "group/:GroupId",
+        path: "group/:GroupId",//v
         element: <div>groupId</div>,
       },
       {
-        path: "group/new",
+        path: "group/new",//v
         element: <div>new groupId</div>,
       },
       {
-        path: "group/:GroupId/edit",
+        path: "group/:GroupId/edit",//v
         element: <div>edit groupId</div>,
       },
       {

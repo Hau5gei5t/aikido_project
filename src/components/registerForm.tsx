@@ -5,11 +5,86 @@ import {
   Form,
   Input,
   Typography,
+  Modal,
+  DatePicker,
 } from "antd";
-import React from "react";
+import locale from "antd/es/date-picker/locale/ru_RU";
+import ru_Ru from "antd/es/locale/ru_RU";
+import ru from "dayjs/locale/ru";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import IRegister from "../interfaces/register.interface";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { Register } from "../services/register.service";
+dayjs.locale(ru);
+dayjs.extend(customParseFormat);
+
+interface IFormValues extends IRegister {
+  birthDate: dayjs.Dayjs;
+}
 
 const RegisterForm: React.FC = () => {
+  const [data, setData] = useState<IRegister>({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    patronymic: "",
+    groupCode: "",
+    phoneNumber: "",
+  });
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
+  const onFinish = (values: IFormValues) => {
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      patronymic,
+      groupCode,
+      phoneNumber,
+    } = values;
+    const birthDate = values.birthDate.format("DD-MM-YYYY");
+    const req = {
+      email,
+      password,
+      firstName,
+      lastName,
+      patronymic,
+      groupCode,
+      birthDate,
+      phoneNumber,
+    };
+    setData(req);
+    // console.log("Success:", data);
+    // localStorage.setItem("user", JSON.stringify(req));
+    // Register(req);
+  };
+  useEffect(() => {
+    setConfirmLoading(true);
+    if (data.email === "") {
+      setConfirmLoading(false);
+      return;
+    }
+    Register(data)
+      .then(() => {
+        setOpen(false);
+        setConfirmLoading(false);
+        navigate(`/`, { replace: true });
+      })
+      .catch((err) => {
+        console.log(err);
+
+        setOpen(false);
+        setConfirmLoading(false);
+      });
+    
+  }, [data])
+  
   const copyFromClipboard = () => {
     navigator.clipboard.readText().then((text) => {
       form.setFieldsValue({
@@ -18,16 +93,11 @@ const RegisterForm: React.FC = () => {
     });
   };
   const { Text } = Typography;
-  const onFinish = (values: FieldType) => {
-    const { email, password, groupCode } = values;
-
-    const req = {
-      email,
-      password,
-      groupCode,
-    };
-    console.log("Success:", req);
+  const createModalForm = () => {
+    setOpen(true);
   };
+  
+  
 
   const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo);
@@ -52,7 +122,7 @@ const RegisterForm: React.FC = () => {
         <Form
           form={form}
           name="register"
-          onFinish={onFinish}
+          onFinish={createModalForm}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
@@ -125,6 +195,86 @@ const RegisterForm: React.FC = () => {
             </Button>
           </Form.Item>
         </Form>
+        <Modal
+          open={open}
+          footer={
+            <Button
+              key="submit"
+              form="register"
+              htmlType="submit"
+              type="primary"
+              loading={confirmLoading}
+            >
+              OK
+            </Button>
+          }
+          title="Ваша группа"
+        >
+          <ConfigProvider
+            locale={ru_Ru}
+            theme={{
+              components: {
+                Tabs: {
+                  lineWidthFocus: 0,
+                },
+              },
+              token: {
+                borderRadius: 2,
+                fontFamily:
+                  "-apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+              },
+            }}
+          >
+            <Form
+              id="register"
+              form={form}
+              name="registerAdd"
+              onFinish={onFinish}
+            >
+              <Text>Фамилия</Text>
+              <Form.Item name="lastName">
+                <Input
+                  style={{ marginTop: "0.5rem" }}
+                  type="text"
+                  placeholder="Иванов"
+                />
+              </Form.Item>
+              <Text>Имя</Text>
+              <Form.Item name="firstName">
+                <Input
+                  style={{ marginTop: "0.5rem" }}
+                  type="text"
+                  placeholder="Иван"
+                />
+              </Form.Item>
+              <Text>Отчество</Text>
+              <Form.Item name="patronymic">
+                <Input
+                  style={{ marginTop: "0.5rem" }}
+                  type="text"
+                  placeholder="Иванович"
+                />
+              </Form.Item>
+              <Text>Дата рождения</Text>
+              <Form.Item name="birthDate">
+                <DatePicker
+                  style={{ width: "100%", marginTop: "0.5rem" }}
+                  locale={locale}
+                  format="DD.MM.YYYY"
+                  getPopupContainer={(node) => node.parentNode as HTMLElement}
+                />
+              </Form.Item>
+              <Text>Номер телефона</Text>
+              <Form.Item name="phoneNumber">
+                <Input
+                  style={{ marginTop: "0.5rem" }}
+                  type=""
+                  placeholder="+71234567890"
+                />
+              </Form.Item>
+            </Form>
+          </ConfigProvider>
+        </Modal>
       </ConfigProvider>
     </>
   );

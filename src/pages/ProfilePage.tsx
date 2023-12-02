@@ -1,12 +1,24 @@
-
-import { useLocation } from 'react-router-dom';
+import { Await, defer, useLoaderData, useLocation } from "react-router-dom";
+import type { Params } from "react-router-dom";
+import getUser from "../services/getUser.service";
+import { Suspense } from "react";
+import IUser from "../interfaces/user.interface";
+import Profile from "../components/profile";
 
 const ProfilePage = () => {
-    const location = useLocation();
-    console.log(location);
-  return (
-    <div>ProfilePage</div>
-  )
-}
+  const { profile }  = useLoaderData() as { profile: IUser };
+  
 
-export default ProfilePage
+  return <>
+  <Suspense fallback={<div>Loading...</div>}>
+    <Await resolve={profile}>
+      {(profile: IUser) => (
+        <Profile profile={profile} />
+      )}
+    </Await>
+  </Suspense>
+  </>;
+};
+
+
+export default ProfilePage;
