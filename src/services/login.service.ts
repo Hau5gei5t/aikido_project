@@ -3,14 +3,16 @@ import ILogin from '../interfaces/login.interface';
 
 
 export const Login = (user:ILogin) => {
-    axios
+   const data = axios
     .post("http://localhost:3000/login",user)
     .then((res) => {
         console.log(res.data);
         localStorage.setItem("token", res.data.accessToken);
         localStorage.setItem("user", JSON.stringify(res.data.user));
+        return res.data;
     })
     .catch((err) => {
         console.log(err);
     })
+    return data;
 }

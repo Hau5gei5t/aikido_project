@@ -8,11 +8,12 @@ import {
   theme,
   Menu,
   MenuProps,
-  // Breadcrumb,
   Button,
+  Breadcrumb,
+  Row,
 } from "antd";
 import Logo from "../components/logo";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import {
   ContactsOutlined,
@@ -22,15 +23,25 @@ import {
   MenuUnfoldOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import UserAvatar from "../assets/Avatar.png";
+import UserAvatar from "../assets/image.jpg";
 
 const MainPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.state);
+
   const [collapsed, setCollapsed] = useState(true);
-  const [keyMenu, setKeyMenu] = useState("");
-  const { firstName, lastName, id } = JSON.parse(
+  const { firstName, lastName} = JSON.parse(
     localStorage.getItem("user") || "{}"
   );
+  const { id } = JSON.parse(localStorage.getItem("user") || "{}");
+
+  // const breadcrumbItems = [{title: "Главная", href: "/"}];
+  // location.pathname.split("/").slice(1, location.pathname.split("/").length-1).forEach((item) => {
+  //   breadcrumbItems.push({title: item, href: `/${item}`});
+  // });
+  // breadcrumbItems.push({title: location.pathname.split("/").pop()?.toString() });
+
   const logout = () => {
     localStorage.clear();
     navigate("/Auth", { replace: true });
@@ -41,8 +52,15 @@ const MainPage: React.FC = () => {
       label: "Профиль",
       icon: <UserOutlined />,
       onClick: () => {
-        navigate(`/profile/${id}`, { state: { id: id } });
-        setKeyMenu("Профиль");
+        localStorage.setItem("type", "Профиль");
+        navigate(`/profile/${id}`, {
+          state: {
+            id: id,
+            type: "Профиль",
+            firstName: firstName,
+            lastName: lastName,
+          },
+        });
       },
     },
     {
@@ -51,19 +69,21 @@ const MainPage: React.FC = () => {
       icon: <ContactsOutlined />,
       children: [
         {
-          key: "Список",
-          label: "Список",
+          key: "Список групп",
+          label: "Список групп",
           onClick: () => {
-            navigate(`/groups`, { state: { id: id } });
-            setKeyMenu("Список");
+            localStorage.setItem("type", "Список групп");
+            navigate(`/groups`, { state: { id: id, type: "Список групп" } });
           },
         },
         {
           key: "Расписание",
           label: "Расписание",
           onClick: () => {
-            navigate(`/groups/shedule`, { state: { id: id } });
-            setKeyMenu("Расписание");
+            localStorage.setItem("type", "Расписание");
+            navigate(`/groups/shedule`, {
+              state: { id: id, type: "Расписание" },
+            });
           },
         },
       ],
@@ -73,8 +93,8 @@ const MainPage: React.FC = () => {
       label: "Платежи",
       icon: <CreditCardOutlined />,
       onClick: () => {
-        navigate(`/payments`, { state: { id: id } });
-        setKeyMenu("Платежи");
+        localStorage.setItem("type", "Платежи");
+        navigate(`/payments`, { state: { id: id, type: "Платежи" } });
       },
     },
     {
@@ -84,7 +104,41 @@ const MainPage: React.FC = () => {
       onClick: logout,
     },
   ];
-
+  const getData = () => {
+    if (location.state) {      
+      return location.state;
+    }
+    if (localStorage.getItem("user")) {
+      const user = JSON.parse(localStorage.getItem("user")!);
+      return {
+        id: user.id,
+        type: localStorage.getItem("type"),
+        firstName: user.firstName,
+        lastName: user.lastName,
+      };
+    }
+  };
+  const data = getData()
+  const titleText = (type: string, firstName?: string, lastName?: string) => {
+    switch (type) {
+      case "Главная":
+        return "Главная";
+      case "Список групп":
+        return "Список групп";
+      case "Расписание":
+        return "Расписание";
+      case "Платежи":
+        return "Платежи";
+      case "Профиль":
+        return `Профиль пользователя ${firstName} ${lastName}`;
+      case "Группа":{
+        const group = location.state.group;
+        return `Группа ${group!.name}`;
+        }
+      default:
+        break;
+    }
+  };
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -104,13 +158,22 @@ const MainPage: React.FC = () => {
           }}
         >
           <Header className="text-white text-center mh-12 flex  justify-between items-center shadow-[0px_-1px_0px_0px_#F0F0F0_inset] ">
-            <Link to={"/"} onClick={() => setKeyMenu("")}>
+            <Link to={"/"} onClick={()=> localStorage.setItem("type", "Главная")} state={{ id: id, type: "Главная" }}>
               <Flex gap={12} align="center">
                 <Logo />
                 <Title>Aikido</Title>
               </Flex>
             </Link>
-            <Link to={`/profile/${id}`} onClick={() => setKeyMenu("Профиль")}>
+            <Link
+              to={`/profile/${id}`}
+              onClick={() => localStorage.setItem("type", "Профиль")}
+              state={{
+                id: id,
+                type: "Профиль",
+                firstName: firstName,
+                lastName: lastName,
+              }}
+            >
               <Space size={8}>
                 <Text>
                   {firstName} {lastName}
@@ -128,7 +191,7 @@ const MainPage: React.FC = () => {
             }}
           >
             <Flex vertical justify="space-between" style={{ height: "100%" }}>
-              <Menu mode="inline" selectedKeys={[keyMenu]} items={items3} />
+              <Menu mode="inline" selectedKeys={[data.type]} items={items3} />
               <Button
                 type="text"
                 style={{
@@ -144,17 +207,15 @@ const MainPage: React.FC = () => {
             </Flex>
           </Sider>
           <Layout style={{ padding: "0 0 24px 0" }}>
-            <Flex>
+            <Flex align="stretch">
               <Button
                 type="text"
                 style={{
-                  height: "87%",
-                  width: 25,
-                  padding: 0,
                   borderRadius: 0,
+                  height: "77%",
                   borderRight: "1px solid #F0F0F0",
                   background: colorBgContainer,
-                  display: collapsed ? "block" : "none",
+                  display: collapsed ? "inline-block" : "none",
                 }}
                 onClick={() => setCollapsed(false)}
               >
@@ -173,17 +234,18 @@ const MainPage: React.FC = () => {
               >
                 {/* <Breadcrumb
                   style={{ margin: "16px 0" }}
-                  items={[
-                    { title: "Home" },
-                    { title: "List" },
-                    { title: "App" },
-                  ]}
+                  items={breadcrumbItems}
                 /> */}
                 <Title style={{ marginTop: 0 }}>
-                  {keyMenu.length > 0 ? keyMenu : "Главная"}
+                  {titleText(
+                    data.type,
+                    data.firstName,
+                    data.lastName
+                  )}
                 </Title>
               </Flex>
             </Flex>
+
             <Content
               style={{
                 padding: 24,

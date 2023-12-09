@@ -2,7 +2,7 @@ import axios from "axios";
 import IRegister from "../interfaces/register.interface";
 
 interface ISubmit extends IRegister {
-  birthDate: string
+  birthDate?: string
 }
 export const Register = (user: ISubmit) => {
   const data = axios

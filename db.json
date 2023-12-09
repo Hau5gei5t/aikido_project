@@ -27,6 +27,17 @@
       "firstName": "Никита",
       "lastName": "Ефимов",
       "id": 4
+    },
+    {
+      "email": "Busov.Artem@gmail.com",
+      "password": "$2a$10$FSowTvkiu1oAvWCxOgqzVuAcGhkoXXWQfjoWKRlatkDLdV5hz8H96",
+      "firstName": "Артём",
+      "lastName": "Бусов",
+      "patronymic": "Николаевич",
+      "groupCode": "hhhhhhhh",
+      "birthDate": "14-03-2003",
+      "phoneNumber": "+79527385520",
+      "id": 5
     }
   ],
   "students": [
@@ -52,7 +63,10 @@
       "id": 1,
       "name": "ПН-12",
       "trainerID": 1,
-      "studentsID": [1, 2],
+      "studentsID": [
+        1,
+        2
+      ],
       "schedule": "asd"
     }
   ],

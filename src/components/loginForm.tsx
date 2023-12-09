@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input, Checkbox, ConfigProvider } from "antd";
 import {
   EyeInvisibleOutlined,
@@ -7,23 +7,31 @@ import {
   MailTwoTone,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { Login } from "../services/login.service";
+import ILogin from "../interfaces/login.interface";
 
 const LoginForm: React.FC = () => {
+  const [data, setData] = React.useState<ILogin>();
   const navigate = useNavigate();
-  const onFinish = (values: FieldType) => {
+  const onFinish = (values: ILogin) => {
     const { email, password } = values;
     const req = {
       email,
       password,
-      firstName: "Максим",
-      lastName: "Зиновьев",
-      id: 1,
     };
-    localStorage.setItem("user", JSON.stringify(req));
-    console.log("Success:", req);
 
-    navigate(`/`, { replace: true });
+    setData(req);
   };
+  useEffect(() => {
+    if (data) {
+      Login(data).then((res) => {
+        navigate(`/`, {
+          replace: true,
+          state: { id: res.user.id, type: "Главная", firstName: res.user.firstName, lastName: res.user.lastName },
+        });
+      });
+    }
+  }, [data]);
 
   const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo);
