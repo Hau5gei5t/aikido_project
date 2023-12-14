@@ -13,8 +13,12 @@ import {
 } from "antd";
 import UserAvatar from "../assets/Avatar.png";
 import { UserOutlined } from "@ant-design/icons";
+import { useMediaQuery } from "react-responsive";
 
 const Profile = (params) => {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 760px)",
+  });
   const [form] = Form.useForm();
   const { Text } = Typography;
   const location = useLocation();
@@ -31,133 +35,271 @@ const Profile = (params) => {
   if (editable) {
     return (
       <>
-        <Flex>
-          <Flex vertical align="center">
-            <UploadAvatar />
-            <Text strong style={{ fontSize: 24 }}>
-              Группа: группа А
-            </Text>
-          </Flex>
-          <ConfigProvider theme={{ token: { borderRadius: 2 } }}>
-            <Form
-              name="basic"
-              style={{ width: "100%" }}
-              autoComplete="off"
-              form={form}
-              initialValues={{
-                firstName: profile.firstName,
-                lastName: profile.lastName,
-                patronymic: profile.patronymic,
-                email: profile.email,
-                birthDate: profile.birthDate,
-                phoneNumber: profile.phoneNumber,
-              }}
-            >
-              <Flex justify="space-around">
-                <Form.Item>
-                  <Flex vertical style={{ width: "400px" }}>
-                    <Text strong>Фамилия</Text>
-                    <Form.Item name="lastName">
-                      <Input size="large"></Input>
-                    </Form.Item>
-                    <Text strong>Имя</Text>
-                    <Form.Item name="firstName">
-                      <Input size="large"></Input>
-                    </Form.Item>
-                    <Text strong>Отчество</Text>
-                    <Form.Item name="patronymic">
-                      <Input size="large"></Input>
-                    </Form.Item>
-                  </Flex>
-                </Form.Item>
-                <Form.Item>
-                  <Flex vertical style={{ width: "400px", height: "100%" }}>
-                    <Text strong>Email</Text>
-                    <Form.Item name="email">
-                      <Input size="large"></Input>
-                    </Form.Item>
-                    <Text strong>Дата рождения</Text>
-                    <Form.Item name="birthDate">
-                      <Input size="large"></Input>
-                    </Form.Item>
-                    <Text strong>Номер телефона</Text>
-                    <Form.Item name="phoneNumber">
-                      <Input size="large"></Input>
-                    </Form.Item>
-                    {false ? (
-                      <>
-                        <Form.Item>
-                          <Button style={{ width: "100%" }} type="primary">
-                            Подтвердить
-                          </Button>
-                        </Form.Item>
-                        <Form.Item shouldUpdate>
-                          {() => (
-                            <Button
-                              style={{
-                                position: "absolute",
-                                top: "11em",
-                                width: "100%",
-                              }}
-                              type="primary"
-                              htmlType="submit"
-                              disabled={
-                                form.getFieldsValue().firstName ===
-                                  profile.firstName &&
-                                form.getFieldsValue().lastName ===
-                                  profile.lastName &&
-                                form.getFieldsValue().patronymic ===
-                                  profile.patronymic &&
-                                form.getFieldsValue().email === profile.email &&
-                                form.getFieldsValue().birthDate ===
-                                  profile.birthDate &&
-                                form.getFieldsValue().phoneNumber ===
-                                  profile.phoneNumber
-                              }
-                            >
-                              Сохранить
-                            </Button>
-                          )}
-                        </Form.Item>
-                      </>
-                    ) : (
-                      <>
-                        <Form.Item shouldUpdate>
-                          {() => (
-                            <Button
-                              style={{
-                                position: "absolute",
-                                top: "15em",
-                                width: "100%",
-                              }}
-                              type="primary"
-                              htmlType="submit"
-                              disabled={
-                                form.getFieldsValue().firstName ===
-                                  profile.firstName &&
-                                form.getFieldsValue().lastName ===
-                                  profile.lastName &&
-                                form.getFieldsValue().patronymic ===
-                                  profile.patronymic &&
-                                form.getFieldsValue().email === profile.email &&
-                                form.getFieldsValue().birthDate ===
-                                  profile.birthDate &&
-                                form.getFieldsValue().phoneNumber ===
-                                  profile.phoneNumber
-                              }
-                            >
-                              Сохранить
-                            </Button>
-                          )}
-                        </Form.Item>
-                      </>
-                    )}
-                  </Flex>
-                </Form.Item>
+        {isMobile ? (
+          <>
+            <Flex vertical align="center">
+              <Flex vertical align="center">
+                <UploadAvatar />
+                <Text strong style={{ fontSize: 24 }}>
+                  Группа: группа А
+                </Text>
               </Flex>
-            </Form>
-          </ConfigProvider>
-        </Flex>
+              <ConfigProvider theme={{ token: { borderRadius: 2 } }}>
+                <Form
+                  name="basic"
+                  style={{ width: "100%" }}
+                  autoComplete="off"
+                  form={form}
+                  initialValues={{
+                    firstName: profile.firstName,
+                    lastName: profile.lastName,
+                    patronymic: profile.patronymic,
+                    email: profile.email,
+                    birthDate: profile.birthDate,
+                    phoneNumber: profile.phoneNumber,
+                  }}
+                >
+                  <Flex vertical justify="space-around">
+                    <Form.Item>
+                      <Flex vertical style={{ width: "auto" }}>
+                        <Text strong>Фамилия</Text>
+                        <Form.Item name="lastName">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                        <Text strong>Имя</Text>
+                        <Form.Item name="firstName">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                        <Text strong>Отчество</Text>
+                        <Form.Item name="patronymic">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                      </Flex>
+                    </Form.Item>
+                    <Form.Item>
+                      <Flex vertical style={{ width: "auto", height: "100%" }}>
+                        <Text strong>Email</Text>
+                        <Form.Item name="email">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                        <Text strong>Дата рождения</Text>
+                        <Form.Item name="birthDate">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                        <Text strong>Номер телефона</Text>
+                        <Form.Item name="phoneNumber">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                        {false ? (
+                          <>
+                            <Form.Item>
+                              <Button style={{ width: "100%" }} type="primary">
+                                Подтвердить
+                              </Button>
+                            </Form.Item>
+                            <Form.Item shouldUpdate>
+                              {() => (
+                                <Button
+                                  style={{
+                                    position: "relative",
+                                    top: "0",
+                                    width: "100%",
+                                  }}
+                                  type="primary"
+                                  htmlType="submit"
+                                  disabled={
+                                    form.getFieldsValue().firstName ===
+                                      profile.firstName &&
+                                    form.getFieldsValue().lastName ===
+                                      profile.lastName &&
+                                    form.getFieldsValue().patronymic ===
+                                      profile.patronymic &&
+                                    form.getFieldsValue().email ===
+                                      profile.email &&
+                                    form.getFieldsValue().birthDate ===
+                                      profile.birthDate &&
+                                    form.getFieldsValue().phoneNumber ===
+                                      profile.phoneNumber
+                                  }
+                                >
+                                  Сохранить
+                                </Button>
+                              )}
+                            </Form.Item>
+                          </>
+                        ) : (
+                          <>
+                            <Form.Item shouldUpdate>
+                              {() => (
+                                <Button
+                                  style={{
+                                    position: "relative",
+                                    top: "1rem",
+                                    width: "100%",
+                                  }}
+                                  type="primary"
+                                  htmlType="submit"
+                                  disabled={
+                                    form.getFieldsValue().firstName ===
+                                      profile.firstName &&
+                                    form.getFieldsValue().lastName ===
+                                      profile.lastName &&
+                                    form.getFieldsValue().patronymic ===
+                                      profile.patronymic &&
+                                    form.getFieldsValue().email ===
+                                      profile.email &&
+                                    form.getFieldsValue().birthDate ===
+                                      profile.birthDate &&
+                                    form.getFieldsValue().phoneNumber ===
+                                      profile.phoneNumber
+                                  }
+                                >
+                                  Сохранить
+                                </Button>
+                              )}
+                            </Form.Item>
+                          </>
+                        )}
+                      </Flex>
+                    </Form.Item>
+                  </Flex>
+                </Form>
+              </ConfigProvider>
+            </Flex>
+          </>
+        ) : (
+          <>
+            <Flex>
+              <Flex vertical align="center">
+                <UploadAvatar />
+                <Text strong style={{ fontSize: 24 }}>
+                  Группа: группа А
+                </Text>
+              </Flex>
+              <ConfigProvider theme={{ token: { borderRadius: 2 } }}>
+                <Form
+                  name="basic"
+                  style={{ width: "100%" }}
+                  autoComplete="off"
+                  form={form}
+                  initialValues={{
+                    firstName: profile.firstName,
+                    lastName: profile.lastName,
+                    patronymic: profile.patronymic,
+                    email: profile.email,
+                    birthDate: profile.birthDate,
+                    phoneNumber: profile.phoneNumber,
+                  }}
+                >
+                  <Flex justify="space-around">
+                    <Form.Item>
+                      <Flex vertical style={{ width: "400px" }}>
+                        <Text strong>Фамилия</Text>
+                        <Form.Item name="lastName">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                        <Text strong>Имя</Text>
+                        <Form.Item name="firstName">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                        <Text strong>Отчество</Text>
+                        <Form.Item name="patronymic">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                      </Flex>
+                    </Form.Item>
+                    <Form.Item>
+                      <Flex vertical style={{ width: "400px", height: "100%" }}>
+                        <Text strong>Email</Text>
+                        <Form.Item name="email">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                        <Text strong>Дата рождения</Text>
+                        <Form.Item name="birthDate">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                        <Text strong>Номер телефона</Text>
+                        <Form.Item name="phoneNumber">
+                          <Input size="large"></Input>
+                        </Form.Item>
+                        {false ? (
+                          <>
+                            <Form.Item>
+                              <Button style={{ width: "100%" }} type="primary">
+                                Подтвердить
+                              </Button>
+                            </Form.Item>
+                            <Form.Item shouldUpdate>
+                              {() => (
+                                <Button
+                                  style={{
+                                    position: "absolute",
+                                    top: "11em",
+                                    width: "100%",
+                                  }}
+                                  type="primary"
+                                  htmlType="submit"
+                                  disabled={
+                                    form.getFieldsValue().firstName ===
+                                      profile.firstName &&
+                                    form.getFieldsValue().lastName ===
+                                      profile.lastName &&
+                                    form.getFieldsValue().patronymic ===
+                                      profile.patronymic &&
+                                    form.getFieldsValue().email ===
+                                      profile.email &&
+                                    form.getFieldsValue().birthDate ===
+                                      profile.birthDate &&
+                                    form.getFieldsValue().phoneNumber ===
+                                      profile.phoneNumber
+                                  }
+                                >
+                                  Сохранить
+                                </Button>
+                              )}
+                            </Form.Item>
+                          </>
+                        ) : (
+                          <>
+                            <Form.Item shouldUpdate>
+                              {() => (
+                                <Button
+                                  style={{
+                                    position: "absolute",
+                                    top: "15em",
+                                    width: "100%",
+                                  }}
+                                  type="primary"
+                                  htmlType="submit"
+                                  disabled={
+                                    form.getFieldsValue().firstName ===
+                                      profile.firstName &&
+                                    form.getFieldsValue().lastName ===
+                                      profile.lastName &&
+                                    form.getFieldsValue().patronymic ===
+                                      profile.patronymic &&
+                                    form.getFieldsValue().email ===
+                                      profile.email &&
+                                    form.getFieldsValue().birthDate ===
+                                      profile.birthDate &&
+                                    form.getFieldsValue().phoneNumber ===
+                                      profile.phoneNumber
+                                  }
+                                >
+                                  Сохранить
+                                </Button>
+                              )}
+                            </Form.Item>
+                          </>
+                        )}
+                      </Flex>
+                    </Form.Item>
+                  </Flex>
+                </Form>
+              </ConfigProvider>
+            </Flex>
+          </>
+        )}
       </>
     );
   } else {

@@ -1,7 +1,9 @@
 import { CopyOutlined } from "@ant-design/icons";
 import { Button, Flex, Space, Table } from "antd";
 import React from "react";
+import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
+import CardGroup from "../components/cardGroup";
 type DataType = {
   key: string;
   name: string;
@@ -12,6 +14,9 @@ type DataType = {
   note: string;
 };
 const GroupsPage = () => {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 760px)",
+  })
   const MockData = [
     {
       key: "1",
@@ -131,14 +136,28 @@ const GroupsPage = () => {
     },
   };
   return (
-    <Table
-      rowSelection={{
-        type: "checkbox",
-        ...rowSelection,
-      }}
-      columns={column}
-      dataSource={MockData}
-    />
+    <>
+      {isMobile ? (
+        <>
+          <Space direction="vertical" size={20} style={{ width: "100%" }}>
+            {MockData.map((item) => (
+              <CardGroup key={item.key} item={item} />
+            ))}
+          </Space>
+        </>
+      ) : (
+        <>
+          <Table
+            rowSelection={{
+              type: "checkbox",
+              ...rowSelection,
+            }}
+            columns={column}
+            dataSource={MockData}
+          />
+        </>
+      )}
+    </>
   );
 };
 

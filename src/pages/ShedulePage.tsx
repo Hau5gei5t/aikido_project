@@ -6,9 +6,12 @@ import locale from "antd/lib/calendar/locale/ru_RU";
 import ru from "dayjs/locale/ru";
 import Meta from "antd/es/card/Meta";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
+import MobileCalendar from "../components/mobileCalendar";
 dayjs.locale(ru);
 
 const getListData = (value: dayjs.Dayjs) => {
+
   let listData;
   switch (value.date()) {
     case 11:
@@ -30,6 +33,9 @@ const getMonthData = (value: dayjs.Dayjs) => {
 };
 
 const ShedulePage: React.FC = () => {
+      const isMobile = useMediaQuery({
+      query: "(max-width: 767px)",
+    });
   const dateCellRender = (value: dayjs.Dayjs) => {
     const listData = getListData(value);
     return (
@@ -67,7 +73,17 @@ const ShedulePage: React.FC = () => {
     return info.originNode;
   };
 
-  return <Calendar cellRender={cellRender} locale={locale} />;
+  return (
+    <>
+      {isMobile ? (
+        <><MobileCalendar/></>
+      ) : (
+        <>
+          <Calendar cellRender={cellRender} locale={locale} />
+        </>
+      )}
+    </>
+  );
 };
 
 export default ShedulePage;

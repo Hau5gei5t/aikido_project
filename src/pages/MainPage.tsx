@@ -24,14 +24,19 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import UserAvatar from "../assets/image.jpg";
+import { useMediaQuery } from "react-responsive";
+import { Dropdown } from "antd-mobile";
 
 const MainPage: React.FC = () => {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 760px)",
+  });
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.state);
+  // console.log(location.state);
 
   const [collapsed, setCollapsed] = useState(true);
-  const { firstName, lastName} = JSON.parse(
+  const { firstName, lastName } = JSON.parse(
     localStorage.getItem("user") || "{}"
   );
   const { id } = JSON.parse(localStorage.getItem("user") || "{}");
@@ -105,7 +110,7 @@ const MainPage: React.FC = () => {
     },
   ];
   const getData = () => {
-    if (location.state) {      
+    if (location.state) {
       return location.state;
     }
     if (localStorage.getItem("user")) {
@@ -118,7 +123,7 @@ const MainPage: React.FC = () => {
       };
     }
   };
-  const data = getData()
+  const data = getData();
   const titleText = (type: string, firstName?: string, lastName?: string) => {
     switch (type) {
       case "Главная":
@@ -131,10 +136,10 @@ const MainPage: React.FC = () => {
         return "Платежи";
       case "Профиль":
         return `Профиль пользователя ${firstName} ${lastName}`;
-      case "Группа":{
+      case "Группа": {
         const group = location.state.group;
         return `Группа ${group!.name}`;
-        }
+      }
       default:
         break;
     }
@@ -157,75 +162,104 @@ const MainPage: React.FC = () => {
             },
           }}
         >
-          <Header className="text-white text-center mh-12 flex  justify-between items-center shadow-[0px_-1px_0px_0px_#F0F0F0_inset] ">
-            <Link to={"/"} onClick={()=> localStorage.setItem("type", "Главная")} state={{ id: id, type: "Главная" }}>
-              <Flex gap={12} align="center">
-                <Logo />
-                <Title>Aikido</Title>
-              </Flex>
-            </Link>
-            <Link
-              to={`/profile/${id}`}
-              onClick={() => localStorage.setItem("type", "Профиль")}
-              state={{
-                id: id,
-                type: "Профиль",
-                firstName: firstName,
-                lastName: lastName,
-              }}
-            >
-              <Space size={8}>
-                <Text>
-                  {firstName} {lastName}
-                </Text>
-                <Avatar src={UserAvatar}></Avatar>
-              </Space>
-            </Link>
-          </Header>
+          {isMobile ? (
+            <>
+              <Header className="text-white text-center flex justify-between items-center shadow-[0px_-1px_0px_0px_#F0F0F0_inset] ">
+                <Link
+                  to={"/"}
+                  onClick={() => localStorage.setItem("type", "Главная")}
+                  state={{ id: id, type: "Главная" }}
+                >
+                  <Flex gap={12} align="center">
+                    <Logo />
+                    <Title>Aikido</Title>
+                  </Flex>
+                </Link>
+                <div>
+                  <Space size="small">
+                    <Dropdown
+                      arrow={<></>}
+                      style={{ color: "white", backgroundColor: "transparent" }}
+                    >
+                      <Dropdown.Item
+                        key="sorter"
+                        title={
+                          collapsed ? (
+                            <MenuUnfoldOutlined size={90} />
+                          ) : (
+                            <MenuFoldOutlined size={90} />
+                          )
+                        }
+                        highlight={false}
+                      >
+                        <div>
+                          <Menu
+                            mode="inline"
+                            selectedKeys={[data.type]}
+                            items={items3}
+                            style={{ color: "black" }}
+                          />
+                        </div>
+                      </Dropdown.Item>
+                    </Dropdown>
+
+                    <Link
+                      to={`/profile/${id}`}
+                      onClick={() => localStorage.setItem("type", "Профиль")}
+                      state={{
+                        id: id,
+                        type: "Профиль",
+                        firstName: firstName,
+                        lastName: lastName,
+                      }}
+                    >
+                      <Avatar src={UserAvatar}></Avatar>
+                    </Link>
+                  </Space>
+                </div>
+              </Header>
+            </>
+          ) : (
+            <>
+              <Header className="text-white text-center mh-12 flex  justify-between items-center shadow-[0px_-1px_0px_0px_#F0F0F0_inset] ">
+                <Link
+                  to={"/"}
+                  onClick={() => localStorage.setItem("type", "Главная")}
+                  state={{ id: id, type: "Главная" }}
+                >
+                  <Flex gap={12} align="center">
+                    <Logo />
+                    <Title>Aikido</Title>
+                  </Flex>
+                </Link>
+                <Link
+                  to={`/profile/${id}`}
+                  onClick={() => localStorage.setItem("type", "Профиль")}
+                  state={{
+                    id: id,
+                    type: "Профиль",
+                    firstName: firstName,
+                    lastName: lastName,
+                  }}
+                >
+                  <Space size={8}>
+                    <Text>
+                      {firstName} {lastName}
+                    </Text>
+                    <Avatar src={UserAvatar}></Avatar>
+                  </Space>
+                </Link>
+              </Header>
+            </>
+          )}
         </ConfigProvider>
         <Layout>
-          <Sider
-            width={collapsed ? 0 : 200}
-            style={{
-              background: colorBgContainer,
-            }}
-          >
-            <Flex vertical justify="space-between" style={{ height: "100%" }}>
-              <Menu mode="inline" selectedKeys={[data.type]} items={items3} />
-              <Button
-                type="text"
-                style={{
-                  textAlign: "left",
-                  height: "7%",
-                  borderTop: "1px solid #F0F0F0 ",
-                  borderRadius: 0,
-                }}
-                onClick={() => setCollapsed(true)}
-              >
-                <MenuFoldOutlined />
-              </Button>
-            </Flex>
-          </Sider>
-          <Layout style={{ padding: "0 0 24px 0" }}>
-            <Flex align="stretch">
-              <Button
-                type="text"
-                style={{
-                  borderRadius: 0,
-                  height: "77%",
-                  borderRight: "1px solid #F0F0F0",
-                  background: colorBgContainer,
-                  display: collapsed ? "inline-block" : "none",
-                }}
-                onClick={() => setCollapsed(false)}
-              >
-                <MenuUnfoldOutlined
-                  style={{ position: "relative", top: "-35%" }}
-                />
-              </Button>
+          {isMobile ? (
+            <>
               <Flex
                 vertical
                 style={{
+                  marginTop: 10,
                   background: colorBgContainer,
                   marginBottom: 19,
                   paddingLeft: 20,
@@ -236,27 +270,102 @@ const MainPage: React.FC = () => {
                   style={{ margin: "16px 0" }}
                   items={breadcrumbItems}
                 /> */}
-                <Title style={{ marginTop: 0 }}>
-                  {titleText(
-                    data.type,
-                    data.firstName,
-                    data.lastName
-                  )}
+                <Title style={{ marginTop: 0, fontSize: 35 }}>
+                  {titleText(data.type, data.firstName, data.lastName)}
                 </Title>
               </Flex>
-            </Flex>
+              <Content
+                style={{
+                  padding: 12,
+                  margin: "0 24px 0 24px",
+                  minHeight: 280,
+                  background: colorBgContainer,
+                }}
+              >
+                <Outlet />
+              </Content>
+            </>
+          ) : (
+            <>
+              <Sider
+                width={collapsed ? 0 : 200}
+                style={{
+                  background: colorBgContainer,
+                }}
+              >
+                <Flex
+                  vertical
+                  justify="space-between"
+                  style={{ height: "100%" }}
+                >
+                  <Menu
+                    mode="inline"
+                    selectedKeys={[data.type]}
+                    items={items3}
+                  />
+                  <Button
+                    type="text"
+                    style={{
+                      textAlign: "left",
+                      height: "7%",
+                      borderTop: "1px solid #F0F0F0 ",
+                      borderRadius: 0,
+                    }}
+                    onClick={() => setCollapsed(true)}
+                  >
+                    <MenuFoldOutlined />
+                  </Button>
+                </Flex>
+              </Sider>
+              <Layout style={{ padding: "0 0 24px 0" }}>
+                <Flex align="stretch">
+                  <Button
+                    type="text"
+                    style={{
+                      borderRadius: 0,
+                      height: "77%",
+                      borderRight: "1px solid #F0F0F0",
+                      background: colorBgContainer,
+                      display: collapsed ? "inline-block" : "none",
+                    }}
+                    onClick={() => setCollapsed(false)}
+                  >
+                    <MenuUnfoldOutlined
+                      style={{ position: "relative", top: "-35%" }}
+                    />
+                  </Button>
+                  <Flex
+                    vertical
+                    style={{
+                      background: colorBgContainer,
+                      marginBottom: 19,
+                      paddingLeft: 20,
+                      width: "100%",
+                    }}
+                  >
+                    {/* <Breadcrumb
+                  style={{ margin: "16px 0" }}
+                  items={breadcrumbItems}
+                /> */}
+                    <Title style={{ marginTop: 0 }}>
+                      {titleText(data.type, data.firstName, data.lastName)}
+                    </Title>
+                  </Flex>
+                </Flex>
 
-            <Content
-              style={{
-                padding: 24,
-                margin: "0 24px 0 24px",
-                minHeight: 280,
-                background: colorBgContainer,
-              }}
-            >
-              <Outlet />
-            </Content>
-          </Layout>
+                <Content
+                  style={{
+                    padding: 24,
+                    margin: "0 24px 0 24px",
+                    minHeight: 280,
+                    background: colorBgContainer,
+                  }}
+                >
+                  <Outlet />
+                </Content>
+              </Layout>
+            </>
+          )}
         </Layout>
       </Layout>
     </>
