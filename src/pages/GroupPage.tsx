@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import * as dayjs from "dayjs";
 import "dayjs/locale/ru";
 import { Checkbox, Table } from "antd";
+import { useMediaQuery } from "react-responsive";
 
 dayjs.locale("ru");
 type DataType = {
@@ -33,9 +34,13 @@ const getDateWeekday = (weekday: string) => {
 };
 
 const GroupPage = () => {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 768px)",
+  })
   const location = useLocation();
   const group = location.state.group;
   const weekdays = getDateWeekday("");
+  const result = isMobile? weekdays.slice(4, 5) : weekdays
   const mockData = [
     {
       key: "1",
@@ -77,7 +82,7 @@ const GroupPage = () => {
         </Link>
       ),
     },
-    ...weekdays,
+    ...result
   ];
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
@@ -94,6 +99,7 @@ const GroupPage = () => {
       rowSelection={rowSelection}
       columns={columns}
       dataSource={mockData}
+      pagination={false}
     />
   );
 };

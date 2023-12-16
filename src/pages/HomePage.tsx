@@ -11,7 +11,7 @@ import { useMediaQuery } from "react-responsive";
 
 const HomePage = () => {
   const isMobile = useMediaQuery({
-    query: "(max-width: 760px)",
+    query: "(max-width: 768px)",
   })
   const user = JSON.parse(localStorage.getItem("user")!);
   const { Text } = Typography;

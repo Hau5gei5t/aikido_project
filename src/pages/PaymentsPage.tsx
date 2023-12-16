@@ -5,7 +5,9 @@ import {
 } from "@ant-design/icons";
 import { Flex, Progress, Space, Table, Typography } from "antd";
 import React from "react";
+import { useMediaQuery } from "react-responsive";
 import { Link, useLocation } from "react-router-dom";
+import CardPayment from "../components/cardPayment";
 
 type DataType = {
   key: string;
@@ -25,6 +27,9 @@ type DataType = {
 };
 
 const PaymentsPage = () => {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 768px)",
+  })
     const location = useLocation()
     const [data, setData] = React.useState<DataType[]>([
       {
@@ -272,7 +277,8 @@ const PaymentsPage = () => {
           record.paymentstatus === "Оплачено" ||
           record.paymentstatus === "В обработке";
         return (
-          <>
+          
+          
             <Space direction="vertical">
               <Link to={`/payment/${record.key}`}>История платежей</Link>
               <Text
@@ -298,7 +304,7 @@ const PaymentsPage = () => {
                 Зафиксировать оплату
               </Text>
             </Space>
-          </>
+          
         );
       },
     },
@@ -314,28 +320,44 @@ const PaymentsPage = () => {
   };
 
   return (
-    <Table
-      rowSelection={{
-        type: "checkbox",
-        ...rowSelection,
-      }}
-      columns={column}
-      expandable={{
-        defaultExpandedRowKeys: [location.state.group? location.state.group.key : 0],
-        expandedRowRender: (record) => (
+    <>
+      {isMobile ? (
+        <>
+          <Space direction="vertical" size={25} className="w-full">
+            {data.map((group) => (
+              <CardPayment item={group} key={group.key} />
+            ))}
+          </Space>
+        </>
+      ) : (
+        <>
           <Table
-            columns={nestedColumn}
-            dataSource={record.students}
-            pagination={false}
             rowSelection={{
               type: "checkbox",
               ...rowSelection,
             }}
+            columns={column}
+            expandable={{
+              defaultExpandedRowKeys: [
+                location.state.group ? location.state.group.key : 0,
+              ],
+              expandedRowRender: (record) => (
+                <Table
+                  columns={nestedColumn}
+                  dataSource={record.students}
+                  pagination={false}
+                  rowSelection={{
+                    type: "checkbox",
+                    ...rowSelection,
+                  }}
+                />
+              ),
+            }}
+            dataSource={data}
           />
-        ),
-      }}
-      dataSource={data}
-    />
+        </>
+      )}
+    </>
   );
 };
 

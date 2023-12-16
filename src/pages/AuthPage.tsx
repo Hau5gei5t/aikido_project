@@ -44,7 +44,7 @@ const AuthPage: React.FC = () => {
       >
         <div className=" flex flex-col justify-center items-center mt-32 mb-8">
           <Space align="center">
-            <Logo />
+            <Logo darkMode />
             <Title italic>Aikido</Title>
           </Space>
           <Text className=" mb-2 text-center" type="secondary">

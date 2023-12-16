@@ -1,13 +1,14 @@
 import React from "react";
 import dayjs from "dayjs";
 import type { BadgeProps, CalendarProps } from "antd";
-import { Badge, Calendar, Card, Flex, Space } from "antd";
+import { Badge, Calendar, Card, Flex, Space, Typography } from "antd";
 import locale from "antd/lib/calendar/locale/ru_RU";
 import ru from "dayjs/locale/ru";
 import Meta from "antd/es/card/Meta";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import MobileCalendar from "../components/mobileCalendar";
+import CardEvent from "../components/cardEvent";
 dayjs.locale(ru);
 
 const getListData = (value: dayjs.Dayjs) => {
@@ -33,8 +34,9 @@ const getMonthData = (value: dayjs.Dayjs) => {
 };
 
 const ShedulePage: React.FC = () => {
+  const {Text} = Typography
       const isMobile = useMediaQuery({
-      query: "(max-width: 767px)",
+      query: "(max-width: 768px)",
     });
   const dateCellRender = (value: dayjs.Dayjs) => {
     const listData = getListData(value);
@@ -76,7 +78,55 @@ const ShedulePage: React.FC = () => {
   return (
     <>
       {isMobile ? (
-        <><MobileCalendar/></>
+        <>
+          <Space direction="vertical" size={15} className="w-full">
+            <MobileCalendar />
+            <CardEvent
+              type="schedule"
+              event={getListData(dayjs().date(11))[0]}
+            ></CardEvent>
+            <CardEvent
+              type="schedule"
+              event={getListData(dayjs().date(11))[1]}
+            ></CardEvent>
+
+            <div>
+              <Space direction="vertical" align="start">
+                <Text strong>Ближайшее событие</Text>
+                <Flex gap={15} wrap="wrap">
+                  <Flex>
+                    <div className=" px-2 py-2 border border-solid border-1 border-[#D9D9D9] bg-[#E6F7FF] text-center">
+                      5
+                    </div>
+                    <div className="py-2 px-2 border border-solid border-1 border-[#D9D9D9]  text-center">
+                      Дней
+                    </div>
+                  </Flex>
+                  <Flex>
+                    <div className=" px-2 py-2 border border-solid border-1 border-[#D9D9D9] bg-[#E6F7FF] text-center">
+                      10
+                    </div>
+                    <div className="py-2 px-2 border border-solid border-1 border-[#D9D9D9]  text-center">
+                      Часов
+                    </div>
+                  </Flex>
+                  <Flex>
+                    <div className=" px-2 py-2 border border-solid border-1 border-[#D9D9D9] bg-[#E6F7FF] text-center">
+                      51
+                    </div>
+                    <div className="py-2 px-2 border border-solid border-1 border-[#D9D9D9]  text-center">
+                      Минута
+                    </div>
+                  </Flex>
+                </Flex>
+              </Space>
+            </div>
+            <CardEvent
+              type="event"
+              event={getListData(dayjs().date(11))[1]}
+            ></CardEvent>
+          </Space>
+        </>
       ) : (
         <>
           <Calendar cellRender={cellRender} locale={locale} />

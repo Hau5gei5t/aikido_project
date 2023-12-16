@@ -15,7 +15,7 @@ type DataType = {
 };
 const GroupsPage = () => {
   const isMobile = useMediaQuery({
-    query: "(max-width: 760px)",
+    query: "(max-width: 768px)",
   })
   const MockData = [
     {

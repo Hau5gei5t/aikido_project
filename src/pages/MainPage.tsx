@@ -14,7 +14,7 @@ import {
 } from "antd";
 import Logo from "../components/logo";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ContactsOutlined,
   CreditCardOutlined,
@@ -40,6 +40,10 @@ const MainPage: React.FC = () => {
     localStorage.getItem("user") || "{}"
   );
   const { id } = JSON.parse(localStorage.getItem("user") || "{}");
+   
+
+  
+  
 
   // const breadcrumbItems = [{title: "Главная", href: "/"}];
   // location.pathname.split("/").slice(1, location.pathname.split("/").length-1).forEach((item) => {
@@ -58,6 +62,7 @@ const MainPage: React.FC = () => {
       icon: <UserOutlined />,
       onClick: () => {
         localStorage.setItem("type", "Профиль");
+        setCollapsed(true);
         navigate(`/profile/${id}`, {
           state: {
             id: id,
@@ -78,6 +83,7 @@ const MainPage: React.FC = () => {
           label: "Список групп",
           onClick: () => {
             localStorage.setItem("type", "Список групп");
+            setCollapsed(true);
             navigate(`/groups`, { state: { id: id, type: "Список групп" } });
           },
         },
@@ -86,6 +92,7 @@ const MainPage: React.FC = () => {
           label: "Расписание",
           onClick: () => {
             localStorage.setItem("type", "Расписание");
+            setCollapsed(true);
             navigate(`/groups/shedule`, {
               state: { id: id, type: "Расписание" },
             });
@@ -99,6 +106,7 @@ const MainPage: React.FC = () => {
       icon: <CreditCardOutlined />,
       onClick: () => {
         localStorage.setItem("type", "Платежи");
+        setCollapsed(true);
         navigate(`/payments`, { state: { id: id, type: "Платежи" } });
       },
     },
@@ -172,16 +180,18 @@ const MainPage: React.FC = () => {
                 >
                   <Flex gap={12} align="center">
                     <Logo />
-                    <Title>Aikido</Title>
+                    
                   </Flex>
                 </Link>
                 <div>
                   <Space size="small">
                     <Dropdown
+                    
                       arrow={<></>}
                       style={{ color: "white", backgroundColor: "transparent" }}
                     >
                       <Dropdown.Item
+                      
                         key="sorter"
                         title={
                           collapsed ? (
@@ -194,6 +204,7 @@ const MainPage: React.FC = () => {
                       >
                         <div>
                           <Menu
+                          
                             mode="inline"
                             selectedKeys={[data.type]}
                             items={items3}
@@ -205,7 +216,7 @@ const MainPage: React.FC = () => {
 
                     <Link
                       to={`/profile/${id}`}
-                      onClick={() => localStorage.setItem("type", "Профиль")}
+                      onClick={() => {localStorage.setItem("type", "Профиль")}}
                       state={{
                         id: id,
                         type: "Профиль",
@@ -229,7 +240,6 @@ const MainPage: React.FC = () => {
                 >
                   <Flex gap={12} align="center">
                     <Logo />
-                    <Title>Aikido</Title>
                   </Flex>
                 </Link>
                 <Link

@@ -17,7 +17,7 @@ import { useMediaQuery } from "react-responsive";
 
 const Profile = (params) => {
   const isMobile = useMediaQuery({
-    query: "(max-width: 760px)",
+    query: "(max-width: 768px)",
   });
   const [form] = Form.useForm();
   const { Text } = Typography;
@@ -305,70 +305,144 @@ const Profile = (params) => {
   } else {
     return (
       <>
-        <Flex justify="space-around">
-          <Flex vertical align="center">
-            <UserOutlined className="text-[15em]" />
-            <Text strong style={{ fontSize: 24 }}>
-              Группа: группа А
-            </Text>
-          </Flex>
-          <ConfigProvider theme={{ token: { borderRadius: 2 } }}>
-            <Flex justify="space-around">
-              <Flex
-                vertical
-                style={{ width: "400px", height: "100%" }}
-                gap={32}
-              >
-                <div>
-                  <Space direction="vertical" size="small">
-                    <Text strong>Фамилия</Text>
-                    <Text>{profile.lastName}</Text>
-                  </Space>
-                </div>
-
-                <div>
-                  <Space direction="vertical" size="small">
-                    <Text strong>Имя</Text>
-                    <Text>{profile.firstName}</Text>
-                  </Space>
-                </div>
-
-                <div>
-                  <Space direction="vertical" size="small">
-                    <Text strong>Отчество</Text>
-                    <Text>{profile.patronymic || ""}</Text>
-                  </Space>
-                </div>
+        {isMobile ? (
+          <>
+            <Flex vertical gap={80}>
+              <Flex vertical align="center" >
+                <UserOutlined className="text-[15em]" />
+                <Text strong style={{ fontSize: 24 }}>
+                  Группа: группа А
+                </Text>
               </Flex>
-              <Flex
-                vertical
-                style={{ width: "400px", height: "100%" }}
-                gap={32}
-              >
-                <div>
-                  <Space direction="vertical" size="small">
-                    <Text strong>Email</Text>
-                    <Text>{profile.email}</Text>
-                  </Space>
-                </div>
+              <ConfigProvider theme={{ token: { borderRadius: 2 } }}>
+                <Flex justify="space-evenly" gap={20} >
+                  <Flex
+                    vertical
+                    align="start"
+                    style={{ width: "fit", height: "100%" }}
+                    gap={32}
+                  >
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Фамилия</Text>
+                        <Text>{profile.lastName}</Text>
+                      </Space>
+                    </div>
 
-                <div>
-                  <Space direction="vertical" size="small">
-                    <Text strong>Дата рождения</Text>
-                    <Text>{profile.birthDate || ""}</Text>
-                  </Space>
-                </div>
+                    <div>
+                      <Space direction="vertical" size="small" className="w-full">
+                        <Text strong>Имя</Text>
+                        <Text>{profile.firstName}</Text>
+                      </Space>
+                    </div>
 
-                <div>
-                  <Space direction="vertical" size="small">
-                    <Text strong>Номер телефона</Text>
-                    <Text>{profile.phoneNumber || ""}</Text>
-                  </Space>
-                </div>
-              </Flex>
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Отчество</Text>
+                        <Text>{profile.patronymic || "Нет"}</Text>
+                      </Space>
+                    </div>
+                  </Flex>
+                  <Flex
+                    vertical
+                    align="start"
+                    
+                    style={{ width: "fit", height: "100%" }}
+                    gap={32}
+                  >
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Email</Text>
+                        <Text>{profile.email}</Text>
+                      </Space>
+                    </div>
+
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Дата рождения</Text>
+                        <Text>{profile.birthDate || "Нет"}</Text>
+                      </Space>
+                    </div>
+
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Номер телефона</Text>
+                        <Text>{profile.phoneNumber || "Нет"}</Text>
+                      </Space>
+                    </div>
+                  </Flex>
+                </Flex>
+              </ConfigProvider>
             </Flex>
-          </ConfigProvider>
-        </Flex>
+          </>
+        ) : (
+          <>
+            <Flex justify="space-around">
+              <Flex vertical align="center">
+                <UserOutlined className="text-[15em]" />
+                <Text strong style={{ fontSize: 24 }}>
+                  Группа: группа А
+                </Text>
+              </Flex>
+              <ConfigProvider theme={{ token: { borderRadius: 2 } }}>
+                <Flex justify="space-around">
+                  <Flex
+                    vertical
+                    style={{ width: "400px", height: "100%" }}
+                    gap={32}
+                  >
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Фамилия</Text>
+                        <Text>{profile.lastName}</Text>
+                      </Space>
+                    </div>
+
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Имя</Text>
+                        <Text>{profile.firstName}</Text>
+                      </Space>
+                    </div>
+
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Отчество</Text>
+                        <Text>{profile.patronymic || ""}</Text>
+                      </Space>
+                    </div>
+                  </Flex>
+                  <Flex
+                    vertical
+                    style={{ width: "400px", height: "100%" }}
+                    gap={32}
+                  >
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Email</Text>
+                        <Text>{profile.email}</Text>
+                      </Space>
+                    </div>
+
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Дата рождения</Text>
+                        <Text>{profile.birthDate || ""}</Text>
+                      </Space>
+                    </div>
+
+                    <div>
+                      <Space direction="vertical" size="small">
+                        <Text strong>Номер телефона</Text>
+                        <Text>{profile.phoneNumber || ""}</Text>
+                      </Space>
+                    </div>
+                  </Flex>
+                </Flex>
+              </ConfigProvider>
+            </Flex>
+          </>
+        )}
       </>
     );
   }
