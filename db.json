@@ -5,28 +5,32 @@
       "password": "$2a$10$0u8cF1oKLHaNiAeOOBILO.ewvGDg9Mdw8JOE96HXNHd8Uebvvmgru",
       "firstName": "Максим",
       "lastName": "Зиновьев",
-      "id": 1
+      "id": 1,
+      "role": "student"
     },
     {
       "email": "Artem.Busov@urfu.me",
       "password": "$2a$10$BM3Nr.2BlknYSZr5S2CLkeqEh1nU7dfcJ7ZbzlKLf0jXS5WFbiGGq",
       "firstName": "Артём",
       "lastName": "Бусов",
-      "id": 2
+      "id": 2,
+      "role": "student"
     },
     {
       "email": "busov.artem@yandex.ru",
       "password": "$2a$10$PdVBYi00Y.XhwUQjKjMJ8.JqMWHOS.uSRYmJ6z3KxhoHNrYPD9j4y",
       "firstName": "Галина",
       "lastName": "Елисеева",
-      "id": 3
+      "id": 3,
+      "role": "student"
     },
     {
       "email": "test@test.ru",
       "password": "$2a$10$D6Asfr3w9IOIILnT.jz7ceiTxEO1W7uMiZREmv5FTaPgvk8mgRbeG",
       "firstName": "Никита",
       "lastName": "Ефимов",
-      "id": 4
+      "id": 4,
+      "role": "student"
     },
     {
       "email": "Busov.Artem@gmail.com",
@@ -37,50 +41,281 @@
       "groupCode": "hhhhhhhh",
       "birthDate": "14-03-2003",
       "phoneNumber": "+79527385520",
-      "id": 5
-    }
-  ],
-  "students": [
+      "id": 5,
+      "role": "trainer"
+    },
     {
-      "id": 1,
-      "userId": 2
-    }
-  ],
-  "trainers": [
+      "email": "rest@rest.rest",
+      "password": "$2a$10$FR7FkJyQt5xSpgrw8NzpLudp9ZSg9e3bq95rj36.7y.YCA2hO.Pd6",
+      "firstName": "Тест1",
+      "lastName": "Тест",
+      "patronymic": "Тестович",
+      "groupCode": "9lVNLKfY7n",
+      "birthDate": "04-12-2023",
+      "phoneNumber": "+71234567890",
+      "id": 6,
+      "role": "student"
+    },
     {
-      "id": 1,
-      "userId": 2
-    }
-  ],
-  "admins": [
+      "email": "qwerty@qwerty.qwerty",
+      "password": "$2a$10$uoTTmiVGPDncyqSuJvPhQOuMdAcPivG7Ee9VNEPfUTrJ0jD/n3n1i",
+      "firstName": "w",
+      "lastName": "w",
+      "patronymic": "w",
+      "groupCode": "9lVNLKfY7n",
+      "birthDate": "04-01-2023",
+      "phoneNumber": "+71234567890",
+      "id": 7,
+      "role": "student"
+    },
     {
-      "id": 1,
-      "userId": 4
+      "email": "qwerf@qwerf.qwerf",
+      "password": "$2a$10$H3.kvkoZLpdL/K0qFy7My.uUcJvT6bIs5Xr3Qq0HJZqwYzN6YBxBi",
+      "firstName": "e",
+      "lastName": "e",
+      "patronymic": "e",
+      "groupCode": "9lVNLKfY7n",
+      "birthDate": "01-12-2020",
+      "phoneNumber": "+71234567890",
+      "id": 8,
+      "role": "student"
+    },
+    {
+      "email": "qwer@qweR.com",
+      "password": "$2a$10$IsRrvG8498ro5VtPZmpnX.wHcXdMRBvDXnx0.BfknI.RMHMdSmx3e",
+      "firstName": "Дима",
+      "lastName": "Димов",
+      "patronymic": "Алексеевич",
+      "groupCode": "9lVNLKfY7n",
+      "birthDate": "11-01-1990",
+      "phoneNumber": "+71234567890",
+      "id": 9,
+      "role": "student"
     }
   ],
   "groups": [
     {
-      "id": 1,
-      "name": "ПН-12",
-      "trainerID": 1,
-      "studentsID": [
-        1,
-        2
+      "id": "1",
+      "name": "Группа А",
+      "count": 10,
+      "shedule": [
+        "Пн: 10:00 - 12:00 ",
+        "Вт: 12:00 - 13:00 ",
+        "Ср: 06:56 - 09:56 "
       ],
-      "schedule": "asd"
+      "paymentDate": "10",
+      "groupCode": "asdjh1",
+      "note": "text",
+      "price": 500,
+      "location": "test",
+      "trainerID": 5,
+      "students": [
+        {
+          "key": "1",
+          "groupKey": "1",
+          "userID": 1,
+          "name": "Максим Зиновьев",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "10.10.2022",
+          "price": 500
+        },
+        {
+          "key": "2",
+          "groupKey": "1",
+          "userID": 2,
+          "name": "Артём Бусов",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "26.12.2023",
+          "price": 500
+        },
+        {
+          "key": "3",
+          "groupKey": "1",
+          "userID": 3,
+          "name": "Галина Елисеева",
+          "paymentstatus": "Не оплачено",
+          "paymentDate": "Нет",
+          "price": 500
+        }
+      ],
+      "groupName": "Группа Главная",
+      "description": "text",
+      "locationGroup": "test"
+    },
+    {
+      "id": "2",
+      "name": "Group 2",
+      "count": 20,
+      "shedule": [
+        "Ср: 10:00 - 12:00 ",
+        "Чт: 10:00 - 12:00 ",
+        "Сб: 05:52 - 11:53 "
+      ],
+      "paymentDate": "21",
+      "groupCode": "asdjh2",
+      "note": "text",
+      "price": 500,
+      "location": "test",
+      "trainerID": 5,
+      "students": [
+        {
+          "key": "1",
+          "groupKey": "2",
+          "userID": 4,
+          "name": "Student 1",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "10.10.2022",
+          "price": 500
+        },
+        {
+          "key": "2",
+          "groupKey": "2",
+          "userID": 1,
+          "name": "Student 2",
+          "paymentstatus": "Не оплачено",
+          "paymentDate": "Нет",
+          "price": 500
+        },
+        {
+          "key": "3",
+          "groupKey": "2",
+          "userID": 2,
+          "name": "Student 3",
+          "paymentstatus": "В обработке",
+          "paymentDate": "10.10.2022",
+          "price": 500
+        }
+      ],
+      "groupName": "Group 2",
+      "description": "text",
+      "locationGroup": "test"
+    },
+    {
+      "id": "3",
+      "name": "Group 3",
+      "count": 30,
+      "shedule": [
+        "Пт: 10:00 - 12:00 ",
+        "Сб: 10:00 - 12:00 "
+      ],
+      "paymentDate": "10",
+      "groupCode": "asdjh3",
+      "note": "text",
+      "price": 500,
+      "location": "test",
+      "trainerID": 5,
+      "students": [
+        {
+          "key": "1",
+          "groupKey": "3",
+          "userID": 3,
+          "name": "Student 1",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "10.10.2022",
+          "price": 500
+        },
+        {
+          "key": "2",
+          "groupKey": "3",
+          "userID": 4,
+          "name": "Student 2",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "10.10.2022",
+          "price": 500
+        },
+        {
+          "key": "3",
+          "groupKey": "3",
+          "userID": 1,
+          "name": "Student 3",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "10.10.2022",
+          "price": 500
+        }
+      ],
+      "groupName": "Group 3",
+      "description": "text",
+      "locationGroup": "test"
+    },
+    {
+      "id": 4,
+      "groupName": "test",
+      "groupCode": "9lVNLKfY7n",
+      "description": "testtessss",
+      "paymentDate": "08",
+      "price": "5000",
+      "locationGroup": "test",
+      "shedule": [
+        "Пн: 03:39 - 08:41 "
+      ],
+      "trainerID": 5,
+      "students": [
+        {
+          "key": 1,
+          "groupKey": 4,
+          "userID": 6,
+          "name": "Тест Тест1",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "26.12.2023",
+          "price": 5000
+        },
+        {
+          "key": 2,
+          "groupKey": 4,
+          "userID": 7,
+          "name": "w w",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "26.12.2023",
+          "price": "5000"
+        },
+        {
+          "key": 3,
+          "groupKey": 4,
+          "userID": 8,
+          "name": "e e",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "26.12.2023",
+          "price": "5000"
+        },
+        {
+          "key": 4,
+          "groupKey": 4,
+          "userID": 9,
+          "name": "Димов Дима",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "26.12.2023",
+          "price": "5000"
+        }
+      ],
+      "count": 0
+    },
+    {
+      "id": 5,
+      "groupName": "й",
+      "groupCode": "mwMNMy5b2K",
+      "description": "q",
+      "paymentDate": "12",
+      "price": "500",
+      "locationGroup": "q",
+      "shedule": [
+        "Пн: 03:58 - 07:58 "
+      ],
+      "trainerID": 5,
+      "students": [],
+      "count": 0
     }
   ],
   "Payments": [
     {
       "id": 1,
-      "studentID": 2,
+      "studentID": 5,
       "paymentDate": "2022-10-10",
       "sum": 500,
       "status": "done"
     },
     {
       "id": 2,
-      "studentID": 2,
+      "studentID": 5,
       "paymentDate": "2023-10-10",
       "sum": 600,
       "status": "awaiting confirmation"

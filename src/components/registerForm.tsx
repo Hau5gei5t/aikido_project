@@ -74,7 +74,7 @@ const RegisterForm: React.FC = () => {
       .then(() => {
         setOpen(false);
         setConfirmLoading(false);
-        navigate(`/`, { replace: true });
+        navigate(`/`, { replace: true, state:{type:"Главная"} } );
       })
       .catch((err) => {
         console.log(err);

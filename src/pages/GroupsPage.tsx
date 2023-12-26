@@ -1,62 +1,94 @@
 import { CopyOutlined } from "@ant-design/icons";
 import { Button, Flex, Space, Table } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import CardGroup from "../components/cardGroup";
+import { getAllGroup } from "../services/Groups/getAllGroups.service";
+import getUser from "../services/getUser.service";
+import Dayjs from "dayjs";
+import { deleteGroup } from "../services/Groups/deleteGroup.service";
 type DataType = {
-  key: string;
-  name: string;
-  count: number;
-  shedule: string[];
+  [key: string]: string | string[] | Dayjs.Dayjs | Dayjs.Dayjs[] | undefined | number;
+  id: number;
+  groupName: string;
   groupCode: string;
-  paymentDate: string;
-  note: string;
+  description?: string;
+  paymentDate: Dayjs.Dayjs;
+  price: string;
+  locationGroup: string;
+  shedule: string[];
 };
 const GroupsPage = () => {
   const isMobile = useMediaQuery({
     query: "(max-width: 768px)",
-  })
+  });
+  const [groups, setGroups] = React.useState();
+  const [selectedRows, setSelectedRows] = React.useState<DataType[]>([]);
   const MockData = [
     {
       key: "1",
       name: "Группа А",
       count: 10,
-      shedule: ["ПН: 10:00 - 12:00 ", "ВТ: 10:00 - 12:00"],
+      shedule: ["Пн: 10:00 - 12:00 ", "Вт: 10:00 - 12:00 "],
       paymentDate: "10.10.2022",
       groupCode: "asdjh1",
       note: "text",
+      price: 500,
+      location: "test",
     },
     {
       key: "2",
       name: "Group 2",
       count: 20,
-      shedule: ["СР: 10:00 - 12:00 ", "ЧТ: 10:00 - 12:00"],
+      shedule: ["Ср: 10:00 - 12:00 ", "Чт: 10:00 - 12:00 "],
       paymentDate: "10.10.2022",
       groupCode: "asdjh2",
       note: "text",
+      price: 500,
+      location: "test",
     },
     {
       key: "3",
       name: "Group 3",
       count: 30,
-      shedule: ["ПТ: 10:00 - 12:00 ", "СБ: 10:00 - 12:00"],
+      shedule: ["Пт: 10:00 - 12:00 ", "Сб: 10:00 - 12:00 "],
       paymentDate: "10.10.2022",
       groupCode: "asdjh3",
       note: "text",
+      price: 500,
+      location: "test",
     },
   ];
+  useEffect(() => {
+    const role = getUser(JSON.parse(localStorage.getItem("user")!).id).then(
+      (res) => {
+        const data = getAllGroup(
+          JSON.parse(localStorage.getItem("user")!).id,
+          res.role,
+          res.groupCode
+        );
+        data.then((res) => {
+          setGroups(res);
+        });
+      }
+    );
+    
+  }, []);
+
+
+
   const column = [
     {
       title: "Название",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "groupName",
+      key: "groupName",
       align: "center",
       render: (text: string, record) => (
         <>
           <div className="">
             <Link
-              to={`/group/${record.key}`}
+              to={`/group/${record.id}`}
               state={{ group: record, type: `Группа` }}
             >
               {text}
@@ -71,6 +103,13 @@ const GroupsPage = () => {
       key: "count",
       width: 100,
       align: "center",
+      render:(_,record)=>{
+        return (
+          <>
+            {record.students.length}
+          </>
+        )
+      }
     },
     {
       title: "Время занятий",
@@ -111,9 +150,16 @@ const GroupsPage = () => {
         return (
           <>
             <Space direction="vertical">
-              {/* <Link to={`/group/${record.key}/edit`}>Редактировать</Link> */}
-              <Link to={`#`}>Редактировать</Link>
-              <Link to={`/payments`} state={{ group: record }}>Вкладка: Платежи</Link>
+              <Link
+                to={`/group/${record.id}/edit`}
+                state={{ group: record, type: `Редактирование группы` }}
+              >
+                Редактировать
+              </Link>
+              {/* <Link to={`#`}>Редактировать</Link> */}
+              <Link to={`/payments`} state={{ group: record, type: `Платежи` }}>
+                Вкладка: Платежи
+              </Link>
             </Space>
           </>
         );
@@ -121,8 +167,8 @@ const GroupsPage = () => {
     },
     {
       title: "Заметки",
-      dataIndex: "note",
-      key: "note",
+      dataIndex: "description",
+      key: "description",
       align: "center",
     },
   ];
@@ -133,6 +179,8 @@ const GroupsPage = () => {
         "selectedRows: ",
         selectedRows
       );
+      const res = selectedRows
+      setSelectedRows(res);
     },
   };
   return (
@@ -140,20 +188,43 @@ const GroupsPage = () => {
       {isMobile ? (
         <>
           <Space direction="vertical" size={20} style={{ width: "100%" }}>
-            {MockData.map((item) => (
-              <CardGroup key={item.key} item={item} />
+            {groups!.map((item) => (
+              <CardGroup key={item.id} item={item} />
             ))}
           </Space>
         </>
       ) : (
         <>
+          {localStorage.getItem("role") !== "student" ? (
+            <>
+              <Link
+                to={`/group/new`}
+                state={{ type: `Создание группы` }}
+                className="float-right mb-3"
+              >
+                <Button type="primary">Создать группу</Button>
+              </Link>
+              <Button onClick={() => {
+                selectedRows.forEach((item) => {deleteGroup(item.id.toString())
+                const newData = groups.filter((group) => group.id !== item.id)
+                setGroups(newData)
+                
+                })
+
+              }} type="primary" danger disabled={selectedRows.length <= 0 }>Удалить выбранные группы</Button>
+            </>
+          ) : (
+            <></>
+          )}
+
           <Table
+            columns={column}
             rowSelection={{
               type: "checkbox",
               ...rowSelection,
             }}
-            columns={column}
-            dataSource={MockData}
+            rowKey={(record) => record.id}
+            dataSource={groups}
           />
         </>
       )}

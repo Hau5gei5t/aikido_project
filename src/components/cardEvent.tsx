@@ -25,10 +25,12 @@ const CardEvent: React.FC<CardEventProps> = (props) => {
   return (
     <Card size="small" title={event.group} extra={<Checkbox></Checkbox>}>
       <Space direction="vertical" className="w-full">
-        <div>Тип</div>
-        <div className="">дата и время</div>
-        <div className="">цена</div>
-        <div className="text-right "><NavLink to={`#`}>Подробнее</NavLink></div>
+        <div>Тип: Соревнование</div>
+        <div className="">дата и время: ПН 10:00 - 12:00</div>
+        <div className="">цена: 650 ₽</div>
+        <div className="text-right ">
+          <NavLink to={`#`}>Подробнее</NavLink>
+        </div>
       </Space>
     </Card>
   );

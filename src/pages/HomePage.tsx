@@ -1,5 +1,5 @@
 import { Avatar, Col, Flex, Input, Row, Space, Tag, Typography } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import UserAvatar from "../assets/image.jpg";
 import { Link } from "react-router-dom";
 import {
@@ -8,13 +8,28 @@ import {
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import { useMediaQuery } from "react-responsive";
+import getUser from "../services/getUser.service";
+import { getAllGroup } from "../services/Groups/getAllGroups.service";
 
 const HomePage = () => {
   const isMobile = useMediaQuery({
     query: "(max-width: 768px)",
-  })
+  });
   const user = JSON.parse(localStorage.getItem("user")!);
   const { Text } = Typography;
+  const [data, setData] = React.useState("");
+  const [group, setGroup] = React.useState("");
+  useEffect(() => {
+    getUser(user.id).then((res) => {
+      setData(res);
+
+      getAllGroup(user.id, localStorage.getItem("role"), user.groupCode).then(
+        (res) => {
+          setGroup(res[0]);
+        }
+      );
+    });
+  }, []);
   return (
     <>
       {isMobile ? (
@@ -132,16 +147,16 @@ const HomePage = () => {
               <Avatar size={240} src={UserAvatar} />
               <Flex vertical gap={16}>
                 <Text strong>
-                  {user.lastName} {user.firstName} {user.patronymic}
+                  {data.lastName} {data.firstName} {data.patronymic}
                 </Text>
-                <Text>Группа А</Text>
+                <Text>{group.groupName}</Text>
                 <Link
-                  to={"/profile/" + user.id}
+                  to={"/profile/" + data.id}
                   state={{
-                    id: user.id,
+                    id: data.id,
                     type: "Профиль",
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
                   }}
                 >
                   Открыть профиль

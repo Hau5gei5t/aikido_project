@@ -1,5 +1,5 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import UploadAvatar from "./uploadAvatar";
 import {
   Flex,
@@ -14,15 +14,26 @@ import {
 import UserAvatar from "../assets/Avatar.png";
 import { UserOutlined } from "@ant-design/icons";
 import { useMediaQuery } from "react-responsive";
+import { updateUser } from "../services/updateUser.service";
+import { getAllGroup } from "../services/Groups/getAllGroups.service";
 
 const Profile = (params) => {
   const isMobile = useMediaQuery({
     query: "(max-width: 768px)",
   });
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const { Text } = Typography;
   const location = useLocation();
   const { profile } = params;
+  const [groups, setGroups] = React.useState();
+  useEffect(() => {if (profile){
+    console.log(profile);
+    
+    getAllGroup(profile.id, profile.role, profile.groupCode).then((res) => {
+      setGroups(res);
+    })
+  }}, []);
   if (!profile) {
     const user = localStorage.getItem("user");
     if (user && JSON.parse(user).id == location.pathname.split("/").pop()) {
@@ -31,6 +42,8 @@ const Profile = (params) => {
     return <>no data</>;
   }
   const editable = profile.id == JSON.parse(localStorage.getItem("user")!).id;
+  
+  
   console.log(editable);
   if (editable) {
     return (
@@ -173,7 +186,7 @@ const Profile = (params) => {
               <Flex vertical align="center">
                 <UploadAvatar />
                 <Text strong style={{ fontSize: 24 }}>
-                  Группа: группа А
+                  {groups ? groups.length > 1 ? `Группы: ${groups.map((g)=>g.groupName).join(", ")}` : `Группа: ${groups[0].groupName}`:"none"}
                 </Text>
               </Flex>
               <ConfigProvider theme={{ token: { borderRadius: 2 } }}>
@@ -182,6 +195,10 @@ const Profile = (params) => {
                   style={{ width: "100%" }}
                   autoComplete="off"
                   form={form}
+                  onFinish={(values) => {
+                    updateUser(profile.id, values);
+                    navigate("/")
+                  }}
                   initialValues={{
                     firstName: profile.firstName,
                     lastName: profile.lastName,
@@ -308,14 +325,14 @@ const Profile = (params) => {
         {isMobile ? (
           <>
             <Flex vertical gap={80}>
-              <Flex vertical align="center" >
+              <Flex vertical align="center">
                 <UserOutlined className="text-[15em]" />
                 <Text strong style={{ fontSize: 24 }}>
                   Группа: группа А
                 </Text>
               </Flex>
               <ConfigProvider theme={{ token: { borderRadius: 2 } }}>
-                <Flex justify="space-evenly" gap={20} >
+                <Flex justify="space-evenly" gap={20}>
                   <Flex
                     vertical
                     align="start"
@@ -330,7 +347,11 @@ const Profile = (params) => {
                     </div>
 
                     <div>
-                      <Space direction="vertical" size="small" className="w-full">
+                      <Space
+                        direction="vertical"
+                        size="small"
+                        className="w-full"
+                      >
                         <Text strong>Имя</Text>
                         <Text>{profile.firstName}</Text>
                       </Space>
@@ -346,7 +367,6 @@ const Profile = (params) => {
                   <Flex
                     vertical
                     align="start"
-                    
                     style={{ width: "fit", height: "100%" }}
                     gap={32}
                   >
@@ -381,7 +401,11 @@ const Profile = (params) => {
               <Flex vertical align="center">
                 <UserOutlined className="text-[15em]" />
                 <Text strong style={{ fontSize: 24 }}>
-                  Группа: группа А
+                  {groups
+                    ? groups.length > 1
+                      ? `Группы: ${groups.map((g) => g.groupName).join(", ")}`
+                      : `Группа: ${groups[0].groupName}`
+                    : "none"}
                 </Text>
               </Flex>
               <ConfigProvider theme={{ token: { borderRadius: 2 } }}>

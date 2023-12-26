@@ -40,10 +40,6 @@ const MainPage: React.FC = () => {
     localStorage.getItem("user") || "{}"
   );
   const { id } = JSON.parse(localStorage.getItem("user") || "{}");
-   
-
-  
-  
 
   // const breadcrumbItems = [{title: "Главная", href: "/"}];
   // location.pathname.split("/").slice(1, location.pathname.split("/").length-1).forEach((item) => {
@@ -134,22 +130,16 @@ const MainPage: React.FC = () => {
   const data = getData();
   const titleText = (type: string, firstName?: string, lastName?: string) => {
     switch (type) {
-      case "Главная":
-        return "Главная";
-      case "Список групп":
-        return "Список групп";
-      case "Расписание":
-        return "Расписание";
-      case "Платежи":
-        return "Платежи";
+      case "Редактирование группы":
+        return `Редактирование группы: ${location.state.group!.groupName}`;
       case "Профиль":
         return `Профиль пользователя ${firstName} ${lastName}`;
       case "Группа": {
         const group = location.state.group;
-        return `Группа ${group!.name}`;
+        return `Группа ${group!.groupName}`;
       }
       default:
-        break;
+        return type;
     }
   };
   const {
@@ -180,18 +170,15 @@ const MainPage: React.FC = () => {
                 >
                   <Flex gap={12} align="center">
                     <Logo />
-                    
                   </Flex>
                 </Link>
                 <div>
                   <Space size="small">
                     <Dropdown
-                    
                       arrow={<></>}
                       style={{ color: "white", backgroundColor: "transparent" }}
                     >
                       <Dropdown.Item
-                      
                         key="sorter"
                         title={
                           collapsed ? (
@@ -204,7 +191,6 @@ const MainPage: React.FC = () => {
                       >
                         <div>
                           <Menu
-                          
                             mode="inline"
                             selectedKeys={[data.type]}
                             items={items3}
@@ -216,7 +202,9 @@ const MainPage: React.FC = () => {
 
                     <Link
                       to={`/profile/${id}`}
-                      onClick={() => {localStorage.setItem("type", "Профиль")}}
+                      onClick={() => {
+                        localStorage.setItem("type", "Профиль");
+                      }}
                       state={{
                         id: id,
                         type: "Профиль",

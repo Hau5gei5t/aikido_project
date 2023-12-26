@@ -8,6 +8,9 @@ import getUser from "./services/getUser.service";
 import PaymentsPage from "./pages/PaymentsPage";
 import HomePage from "./pages/HomePage";
 import GroupPage from "./pages/GroupPage";
+import CreateGroupPage from "./pages/CreateGroupPage";
+import EditGroupPage from "./pages/EditGroupPage";
+import CreateEventPage from "./pages/CreateEventPage";
 
 const loadUser = async () => {
   const user = localStorage.getItem("user");
@@ -41,17 +44,18 @@ const router = createBrowserRouter([
         path: "groups", //v
         element: <GroupsPage />,
       },
+      {path:"event/new", element:<CreateEventPage/>},
       {
         path: "group/:GroupId", //v
         element: <GroupPage/>,
       },
       {
         path: "group/new", //v
-        element: <div>new groupId</div>,
+        element: <CreateGroupPage/>,
       },
       {
         path: "group/:GroupId/edit", //v
-        element: <div>edit groupId</div>,
+        element: <EditGroupPage/>,
       },
       {
         path: "groups/shedule",//v
