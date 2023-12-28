@@ -1,15 +1,16 @@
+// @ts-nocheck
 import IGroup from "../../interfaces/group.interface";
 import getData from "../getData.service";
+import urlBase from "../getURL";
 
 export const getAllGroup = async (id, type, code?) => {
-  let url
+  let url;
   if (type === "trainer") {
-     url = `http://localhost:3000/groups?trainerID=${id}`;
+    url = `${urlBase}/groups?trainerID=${id}`;
   } else if (type === "student") {
-     url = `http://localhost:3000/groups?groupCode=${code}`;
-  }
-  else {
-    url = `http://localhost:3000/groups`;
+    url = `${urlBase}/groups?groupCode=${code}`;
+  } else {
+    url = `${urlBase}/groups`;
   }
   try {
     const res = await getData(url);

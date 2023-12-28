@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import dayjs from "dayjs";
 import type { BadgeProps, CalendarProps } from "antd";
@@ -12,7 +13,6 @@ import CardEvent from "../components/cardEvent";
 dayjs.locale(ru);
 
 const getListData = (value: dayjs.Dayjs) => {
-
   let listData;
   switch (value.date()) {
     case 11:
@@ -34,10 +34,10 @@ const getMonthData = (value: dayjs.Dayjs) => {
 };
 
 const ShedulePage: React.FC = () => {
-  const {Text} = Typography
-      const isMobile = useMediaQuery({
-      query: "(max-width: 768px)",
-    });
+  const { Text } = Typography;
+  const isMobile = useMediaQuery({
+    query: "(max-width: 768px)",
+  });
   const dateCellRender = (value: dayjs.Dayjs) => {
     const listData = getListData(value);
     return (

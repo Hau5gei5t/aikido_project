@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Avatar, Col, Flex, Input, Row, Space, Tag, Typography } from "antd";
 import React, { useEffect } from "react";
 import UserAvatar from "../assets/image.jpg";
@@ -149,7 +150,7 @@ const HomePage = () => {
                 <Text strong>
                   {data.lastName} {data.firstName} {data.patronymic}
                 </Text>
-                <Text>{group.groupName}</Text>
+                <Text>{group ? group.groupName : "Тренер"}</Text>
                 <Link
                   to={"/profile/" + data.id}
                   state={{

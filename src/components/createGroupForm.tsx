@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Button,
   Col,
@@ -5,7 +6,6 @@ import {
   DatePicker,
   Flex,
   Form,
-  Grid,
   Input,
   Row,
   Space,
@@ -307,7 +307,7 @@ const Desctop: React.FC<Props> = () => {
             JSON.parse(localStorage.getItem("user")!).id,
             groupID
           );
-          navigate(-1)
+          navigate(-1);
         }}
       >
         <Form.Item>

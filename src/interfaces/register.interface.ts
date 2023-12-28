@@ -1,4 +1,3 @@
-import type {Dayjs} from 'dayjs'
 export default interface IRegister{
     email: string,
     password: string,

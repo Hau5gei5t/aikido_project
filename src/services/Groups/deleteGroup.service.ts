@@ -1,9 +1,10 @@
 import axios from "axios";
+import urlBase from "../getURL";
 
 
 
 export const deleteGroup = async (groupId: string) => {
-  const url = `http://localhost:3000/groups/${groupId}`;
+  const url = `${urlBase}/groups/${groupId}`;
   try {
     const res = await axios.delete(url);
     return res;

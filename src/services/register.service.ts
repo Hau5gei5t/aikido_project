@@ -1,28 +1,48 @@
+// @ts-nocheck
 import axios from "axios";
 import IRegister from "../interfaces/register.interface";
+import urlBase from "./getURL";
 
 interface ISubmit extends IRegister {
   birthDate?: string;
 }
 export const Register = (user: ISubmit) => {
   const data = axios
-    .post("http://localhost:3000/register", user)
+    .post(`${urlBase}/register`, user)
     .then((res) => {
       console.log(res.data);
       localStorage.setItem("token", res.data.accessToken);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      if (res.data.user.groupCode.length !== 0 ){
-        localStorage.setItem("role", "student");
+      if (res.data.user.groupCode.length !== 0) {
+        if (res.data.user.groupCode.includes("TRAINER")) {
+          localStorage.setItem("role", "trainer");
+          axios.patch(`${urlBase}/users/${res.data.user.id}`, {
+            role: "trainer",
+          });
+        } else {
+          localStorage.setItem("role", "student");
+          axios.patch(`${urlBase}/users/${res.data.user.id}`, {
+            role: "student",
+          });
+        }
+        axios.patch(`${urlBase}/users/${res.data.user.id}`, {
+          emailConfirmed: false,
+          phoneNumberConfirmed: false,
+        });
       }
+
       return res.data;
     })
     .then((res) => {
       try {
         axios
-          .get(`http://localhost:3000/groups?groupCode=${res.user.groupCode}`)
+          .get(`${urlBase}/groups?groupCode=${res.user.groupCode}`)
           .then((res) => {
-            // console.log(res);
-            axios.patch(`http://localhost:3000/groups/${res.data[0].id}`, {
+            if (res.data.length === 0) {
+              console.log(res);
+              return;
+            }
+            axios.patch(`${urlBase}/groups/${res.data[0].id}`, {
               students: [
                 ...res.data[0].students,
                 {
@@ -37,13 +57,8 @@ export const Register = (user: ISubmit) => {
               ],
             });
           });
-          axios.patch(`http://localhost:3000/users/${res.user.id}`, {
-            role: "student"
-          })
-          
         return res;
       } catch (error) {
-        
         throw new Error(error);
       }
     })

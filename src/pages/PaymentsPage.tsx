@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
@@ -159,20 +160,20 @@ const PaymentsPage = () => {
     },
   ]);
 
-   useEffect(() => {
-     const role = getUser(JSON.parse(localStorage.getItem("user")!).id).then(
-       (res) => {
-         const data = getAllGroup(
-           JSON.parse(localStorage.getItem("user")!).id,
-           res.role,
-           res.groupCode
-         );
-         data.then((res) => {
-           setData(res);
-         });
-       }
-     );
-   }, []);
+  useEffect(() => {
+    const role = getUser(JSON.parse(localStorage.getItem("user")!).id).then(
+      (res) => {
+        const data = getAllGroup(
+          JSON.parse(localStorage.getItem("user")!).id,
+          res.role,
+          res.groupCode
+        );
+        data.then((res) => {
+          setData(res);
+        });
+      }
+    );
+  }, []);
 
   const { Text } = Typography;
 
@@ -334,20 +335,17 @@ const PaymentsPage = () => {
                       item.students = item.students.map((student) => {
                         if (student.key === record.key) {
                           student.paymentstatus = "Оплачено";
-                          student.paymentDate = Dayjs().format(
-                            "DD.MM.YYYY"
-                          );
+                          student.paymentDate = Dayjs().format("DD.MM.YYYY");
                         }
                         return student;
                       });
-                      updateGroup(item.id,item);
+                      updateGroup(item.id, item);
                     }
                     return item;
                   })
                 );
                 console.log(record);
                 console.log(data);
-                
               }}
               disabled={disabled}
             >

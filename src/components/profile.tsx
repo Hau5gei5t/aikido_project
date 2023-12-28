@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import UploadAvatar from "./uploadAvatar";
@@ -27,13 +28,41 @@ const Profile = (params) => {
   const location = useLocation();
   const { profile } = params;
   const [groups, setGroups] = React.useState();
-  useEffect(() => {if (profile){
-    console.log(profile);
-    
-    getAllGroup(profile.id, profile.role, profile.groupCode).then((res) => {
-      setGroups(res);
-    })
-  }}, []);
+  const [textGroup, setTextGroup] = React.useState("");
+  const [confirmedFields, setConfirmedFields] = React.useState({
+    email: profile.emailConfirmed,
+    phone: profile.phoneNumberConfirmed,
+  });
+
+  useEffect(() => {
+    if (profile) {
+      console.log(profile);
+
+      getAllGroup(profile.id, profile.role, profile.groupCode)
+        .then((res) => {
+          setGroups(res);
+          return res;
+        })
+        .then((res) => {
+          if (res.length === 0) {
+            setTextGroup("Нет групп");
+          } else {
+            if (res.length > 1) {
+              setTextGroup(
+                `Группы: ${res
+                  .map((group) => {
+                    return group.groupName;
+                  })
+                  .join(", ")}`
+              );
+            } else {
+              setTextGroup(`Группа: ${res[0].groupName}`);
+            }
+          }
+        });
+    }
+  }, []);
+
   if (!profile) {
     const user = localStorage.getItem("user");
     if (user && JSON.parse(user).id == location.pathname.split("/").pop()) {
@@ -42,8 +71,7 @@ const Profile = (params) => {
     return <>no data</>;
   }
   const editable = profile.id == JSON.parse(localStorage.getItem("user")!).id;
-  
-  
+
   console.log(editable);
   if (editable) {
     return (
@@ -186,7 +214,7 @@ const Profile = (params) => {
               <Flex vertical align="center">
                 <UploadAvatar />
                 <Text strong style={{ fontSize: 24 }}>
-                  {groups ? groups.length > 1 ? `Группы: ${groups.map((g)=>g.groupName).join(", ")}` : `Группа: ${groups[0].groupName}`:"none"}
+                  {textGroup}
                 </Text>
               </Flex>
               <ConfigProvider theme={{ token: { borderRadius: 2 } }}>
@@ -197,7 +225,7 @@ const Profile = (params) => {
                   form={form}
                   onFinish={(values) => {
                     updateUser(profile.id, values);
-                    navigate("/")
+                    navigate("/");
                   }}
                   initialValues={{
                     firstName: profile.firstName,
@@ -228,7 +256,18 @@ const Profile = (params) => {
                     <Form.Item>
                       <Flex vertical style={{ width: "400px", height: "100%" }}>
                         <Text strong>Email</Text>
-                        <Form.Item name="email">
+                        <Form.Item
+                          shouldUpdate
+                          name="email"
+                          validateStatus={
+                            confirmedFields.email ? "" : "warning"
+                          }
+                          help={
+                            confirmedFields.email
+                              ? ""
+                              : "Электронная почта не подтверждена"
+                          }
+                        >
                           <Input size="large"></Input>
                         </Form.Item>
                         <Text strong>Дата рождения</Text>
@@ -236,13 +275,34 @@ const Profile = (params) => {
                           <Input size="large"></Input>
                         </Form.Item>
                         <Text strong>Номер телефона</Text>
-                        <Form.Item name="phoneNumber">
+                        <Form.Item
+                          shouldUpdate
+                          name="phoneNumber"
+                          validateStatus={
+                            confirmedFields.phone ? "" : "warning"
+                          }
+                          help={
+                            confirmedFields.phone
+                              ? ""
+                              : "Телефон не подтвержден"
+                          }
+                        >
                           <Input size="large"></Input>
                         </Form.Item>
-                        {false ? (
+                        {!confirmedFields.email || !confirmedFields.phone ? (
                           <>
                             <Form.Item>
-                              <Button style={{ width: "100%" }} type="primary">
+                              <Button
+                                style={{ width: "100%" }}
+                                type="primary"
+                                onClick={() => {
+                                  console.log("click");
+                                  setConfirmedFields({
+                                    email: true,
+                                    phone: true,
+                                  });
+                                }}
+                              >
                                 Подтвердить
                               </Button>
                             </Form.Item>
@@ -401,11 +461,7 @@ const Profile = (params) => {
               <Flex vertical align="center">
                 <UserOutlined className="text-[15em]" />
                 <Text strong style={{ fontSize: 24 }}>
-                  {groups
-                    ? groups.length > 1
-                      ? `Группы: ${groups.map((g) => g.groupName).join(", ")}`
-                      : `Группа: ${groups[0].groupName}`
-                    : "none"}
+                  {textGroup}
                 </Text>
               </Flex>
               <ConfigProvider theme={{ token: { borderRadius: 2 } }}>

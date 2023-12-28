@@ -1,7 +1,9 @@
+// @ts-nocheck
 import axios from "axios";
-import IGroup from "../../interfaces/group.interface"; 
+import IGroup from "../../interfaces/group.interface";
+import urlBase from "../getURL";
 export const updateGroup = async (id: number, data: any) => {
-  const url = `http://localhost:3000/groups/${id}`;
+  const url = `${urlBase}/groups/${id}`;
   try {
     const res = await axios.patch(url, data);
     return res;

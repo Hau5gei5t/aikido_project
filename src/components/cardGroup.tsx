@@ -1,5 +1,5 @@
 import { CopyOutlined } from "@ant-design/icons";
-import { Card, Divider, Flex, Space, Typography } from "antd";
+import { Card, Flex, Space, Typography } from "antd";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 interface DataType {

@@ -6,11 +6,9 @@ import {
 import {
   Card,
   Checkbox,
-  Col,
   Divider,
   Flex,
   Progress,
-  Row,
   Space,
   Typography,
 } from "antd";

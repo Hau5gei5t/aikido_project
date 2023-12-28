@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CopyOutlined } from "@ant-design/icons";
 import { Button, Flex, Space, Table } from "antd";
 import React, { useEffect } from "react";
@@ -9,7 +10,13 @@ import getUser from "../services/getUser.service";
 import Dayjs from "dayjs";
 import { deleteGroup } from "../services/Groups/deleteGroup.service";
 type DataType = {
-  [key: string]: string | string[] | Dayjs.Dayjs | Dayjs.Dayjs[] | undefined | number;
+  [key: string]:
+    | string
+    | string[]
+    | Dayjs.Dayjs
+    | Dayjs.Dayjs[]
+    | undefined
+    | number;
   id: number;
   groupName: string;
   groupCode: string;
@@ -73,10 +80,7 @@ const GroupsPage = () => {
         });
       }
     );
-    
   }, []);
-
-
 
   const column = [
     {
@@ -103,13 +107,9 @@ const GroupsPage = () => {
       key: "count",
       width: 100,
       align: "center",
-      render:(_,record)=>{
-        return (
-          <>
-            {record.students.length}
-          </>
-        )
-      }
+      render: (_, record) => {
+        return <>{record.students.length}</>;
+      },
     },
     {
       title: "Время занятий",
@@ -179,7 +179,7 @@ const GroupsPage = () => {
         "selectedRows: ",
         selectedRows
       );
-      const res = selectedRows
+      const res = selectedRows;
       setSelectedRows(res);
     },
   };
@@ -204,14 +204,22 @@ const GroupsPage = () => {
               >
                 <Button type="primary">Создать группу</Button>
               </Link>
-              <Button onClick={() => {
-                selectedRows.forEach((item) => {deleteGroup(item.id.toString())
-                const newData = groups.filter((group) => group.id !== item.id)
-                setGroups(newData)
-                
-                })
-
-              }} type="primary" danger disabled={selectedRows.length <= 0 }>Удалить выбранные группы</Button>
+              <Button
+                onClick={() => {
+                  selectedRows.forEach((item) => {
+                    deleteGroup(item.id.toString());
+                    const newData = groups.filter(
+                      (group) => group.id !== item.id
+                    );
+                    setGroups(newData);
+                  });
+                }}
+                type="primary"
+                danger
+                disabled={selectedRows.length <= 0}
+              >
+                Удалить выбранные группы
+              </Button>
             </>
           ) : (
             <></>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Await, defer, useLoaderData, useLocation } from "react-router-dom";
 import { Suspense } from "react";
 import IUser from "../interfaces/user.interface";

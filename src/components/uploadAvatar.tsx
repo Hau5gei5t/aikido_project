@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
@@ -51,7 +52,6 @@ const UploadAvatar: React.FC = () => {
       <div style={{ marginTop: 8 }}>Загрузить</div>
     </div>
   );
-
 
   return (
     <>

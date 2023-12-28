@@ -1,0 +1,59 @@
+{
+  "users": [
+    {
+      "email": "Trainer@trainer.tr",
+      "password": "$2a$10$51qH8auno9l4Te0tvT2HHu7ZI1owpaLIU8Bw96DmGyppqfAzHoELa",
+      "firstName": "n",
+      "lastName": "n",
+      "patronymic": "n",
+      "groupCode": "TRAINER",
+      "birthDate": "09-02-2000",
+      "phoneNumber": "+71234567890",
+      "id": 1,
+      "role": "trainer",
+      "emailConfirmed": false,
+      "phoneNumberConfirmed": false
+    },
+    {
+      "email": "Student@student.st",
+      "password": "$2a$10$7E4KpE0gu8rs2KxaVHWkWOL3W1iU1lqnIV9gAEAWtjPYwT5K.VFEW",
+      "firstName": "Иван",
+      "lastName": "Иванов",
+      "patronymic": "Иванович",
+      "groupCode": "iUV9ChXSNF",
+      "birthDate": "21-05-2009",
+      "phoneNumber": "+71234567890",
+      "id": 2,
+      "role": "student",
+      "emailConfirmed": false,
+      "phoneNumberConfirmed": false
+    }
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "groupName": "Дневная",
+      "groupCode": "iUV9ChXSNF",
+      "description": "123",
+      "paymentDate": "29",
+      "price": "5000",
+      "locationGroup": "тут",
+      "shedule": ["Ср: 12:00 - 14:00 "],
+      "trainerID": 1,
+      "students": [
+        {
+          "key": 1,
+          "groupKey": 1,
+          "userID": 2,
+          "name": "Иванов Иван",
+          "paymentstatus": "Не оплачено",
+          "paymentDate": "Нет",
+          "price": "5000"
+        }
+      ],
+      "count": 0
+    }
+  ],
+  "payments": [],
+  "events": []
+}

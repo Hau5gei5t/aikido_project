@@ -1,6 +1,7 @@
 import axios from "axios";
+import urlBase from "./getURL";
 export const updateUser = async (id: number, data: any) => {
-  const url = `http://localhost:3000/users/${id}`;
+  const url = `${urlBase}/users/${id}`;
   try {
     const res = await axios.patch(url, data);
     return res;

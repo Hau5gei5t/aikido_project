@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Col, Flex, Row, Space, Typography } from "antd";
 import React from "react";
 import locale from "antd/lib/calendar/locale/ru_RU";

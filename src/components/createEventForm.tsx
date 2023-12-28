@@ -1,24 +1,16 @@
 import {
   Button,
-  Col,
   ConfigProvider,
   DatePicker,
   Flex,
   Form,
-  Grid,
   Input,
-  Row,
   Select,
   Space,
-  TimePicker,
   Typography,
 } from "antd";
-import voucher_codes from "voucher-code-generator";
 import React from "react";
-import CheckboxButton from "./checkboxButton";
 import ruRU from "antd/lib/calendar/locale/ru_RU";
-import { CopyOutlined } from "@ant-design/icons";
-import Dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 interface Props {
   isMobile?: boolean;
@@ -49,22 +41,22 @@ interface Props {
 //   console.log(req);
 // };
 
-type FieldType = {
-  [key: string]: string | Dayjs.Dayjs | Dayjs.Dayjs[] | undefined;
-  groupName: string;
-  groupCode: string;
-  description?: string;
-  paymentDate: Dayjs.Dayjs;
-  price: string;
-  locationGroup: string;
-  Mon: Dayjs.Dayjs[];
-  Fri: Dayjs.Dayjs[];
-  Sat: Dayjs.Dayjs[];
-  Sun: Dayjs.Dayjs[];
-  Thu: Dayjs.Dayjs[];
-  Tue: Dayjs.Dayjs[];
-  Wed: Dayjs.Dayjs[];
-};
+// type FieldType = {
+//   [key: string]: string | Dayjs.Dayjs | Dayjs.Dayjs[] | undefined;
+//   groupName: string;
+//   groupCode: string;
+//   description?: string;
+//   paymentDate: Dayjs.Dayjs;
+//   price: string;
+//   locationGroup: string;
+//   Mon: Dayjs.Dayjs[];
+//   Fri: Dayjs.Dayjs[];
+//   Sat: Dayjs.Dayjs[];
+//   Sun: Dayjs.Dayjs[];
+//   Thu: Dayjs.Dayjs[];
+//   Tue: Dayjs.Dayjs[];
+//   Wed: Dayjs.Dayjs[];
+// };
 const { Text } = Typography;
 const CreateEventForm: React.FC<Props> = ({ isMobile }) => {
   return (
