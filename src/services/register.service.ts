@@ -16,19 +16,28 @@ export const Register = (user: ISubmit) => {
       if (res.data.user.groupCode.length !== 0) {
         if (res.data.user.groupCode.includes("TRAINER")) {
           localStorage.setItem("role", "trainer");
-          axios.patch(`${urlBase}/users/${res.data.user.id}`, {
-            role: "trainer",
-          });
+          axios
+            .patch(`${urlBase}/users/${res.data.user.id}`, {
+              role: "trainer",
+            })
+            .then(() => {
+              axios.patch(`${urlBase}/users/${res.data.user.id}`, {
+                emailConfirmed: false,
+                phoneNumberConfirmed: false,
+              });
+            });;
         } else {
           localStorage.setItem("role", "student");
           axios.patch(`${urlBase}/users/${res.data.user.id}`, {
             role: "student",
-          });
-        }
-        axios.patch(`${urlBase}/users/${res.data.user.id}`, {
+          }).then(()=>{
+            axios.patch(`${urlBase}/users/${res.data.user.id}`, {
           emailConfirmed: false,
           phoneNumberConfirmed: false,
         });
+          });
+        }
+        
       }
 
       return res.data;

@@ -1,4 +1,4 @@
-const debug = false;
+const debug = true;
 let urlBase:string;
 if (debug){
     urlBase = "http://localhost:3000" 

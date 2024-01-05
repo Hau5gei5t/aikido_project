@@ -188,9 +188,9 @@ const GroupsPage = () => {
       {isMobile ? (
         <>
           <Space direction="vertical" size={20} style={{ width: "100%" }}>
-            {groups!.map((item) => (
+            {groups? groups.map((item) => (
               <CardGroup key={item.id} item={item} />
-            ))}
+            )): null}
           </Space>
         </>
       ) : (
@@ -211,6 +211,7 @@ const GroupsPage = () => {
                     const newData = groups.filter(
                       (group) => group.id !== item.id
                     );
+                    setSelectedRows([])
                     setGroups(newData);
                   });
                 }}

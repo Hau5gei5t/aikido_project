@@ -42,7 +42,7 @@ const HomePage = () => {
                 <Text strong>
                   {user.lastName} {user.firstName} {user.patronymic}
                 </Text>
-                <Text>Группа: Группа А</Text>
+                <Text>{group ? group.groupName : "Тренер"}</Text>
                 <Link
                   to={"/profile/" + user.id}
                   state={{
@@ -150,7 +150,11 @@ const HomePage = () => {
                 <Text strong>
                   {data.lastName} {data.firstName} {data.patronymic}
                 </Text>
-                <Text>{group ? group.groupName : "Тренер"}</Text>
+                <Text>
+                  {group && localStorage.getItem("role")
+                  !== "trainer"  ? group.groupName
+                    : "Тренер"}
+                </Text>
                 <Link
                   to={"/profile/" + data.id}
                   state={{

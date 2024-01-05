@@ -82,7 +82,7 @@ const Profile = (params) => {
               <Flex vertical align="center">
                 <UploadAvatar />
                 <Text strong style={{ fontSize: 24 }}>
-                  Группа: группа А
+                  {textGroup}
                 </Text>
               </Flex>
               <ConfigProvider theme={{ token: { borderRadius: 2 } }}>
@@ -388,7 +388,7 @@ const Profile = (params) => {
               <Flex vertical align="center">
                 <UserOutlined className="text-[15em]" />
                 <Text strong style={{ fontSize: 24 }}>
-                  Группа: группа А
+                  {textGroup}
                 </Text>
               </Flex>
               <ConfigProvider theme={{ token: { borderRadius: 2 } }}>

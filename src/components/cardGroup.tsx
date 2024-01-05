@@ -20,9 +20,9 @@ const cardGroup: React.FC<PropsType> = (props) => {
   const { item } = props;
   return (
     <>
-      <Card title={<NavLink to={`/group/${item.key}`} state={{ group: item , type: "Группа"}}>{item.name}</NavLink>} extra={""} style={{ width: "100%" }}>
+      <Card title={<NavLink to={`/group/${item.key}`} state={{ group: item , type: "Группа"}}>{item.groupName}</NavLink>} extra={""} style={{ width: "100%" }}>
         <Space direction="vertical">
-          <Text>Количество участников: {item.count}</Text>
+          <Text>Количество участников: {item.students.length}</Text>
           <Text>
             Время занятий:
             <Space wrap>

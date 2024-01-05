@@ -91,6 +91,34 @@
       "phoneNumber": "+71234567890",
       "id": 9,
       "role": "student"
+    },
+    {
+      "email": "Trainer1@mail.com",
+      "password": "$2a$10$WVWhV3toAry9qjXGDVxQp.ya3ZB0PPiwjOH27IjxPHlYYDb57FVAy",
+      "firstName": "Иван",
+      "lastName": "Голубцов",
+      "patronymic": "Иванович",
+      "groupCode": "TRAINER",
+      "birthDate": "18-07-2000",
+      "phoneNumber": "+71234567890",
+      "id": 10,
+      "role": "trainer",
+      "emailConfirmed": false,
+      "phoneNumberConfirmed": false
+    },
+    {
+      "email": "Student3@gmail.com",
+      "password": "$2a$10$pOPWQ/.QWlEIRId6lMPS4OXasoICni/pIGpVy0xOfyzM8DmHlPgAG",
+      "firstName": "Михаил",
+      "lastName": "Кузнецов",
+      "patronymic": "Александрович",
+      "groupCode": "egHGH5EGCG",
+      "birthDate": "18-05-2000",
+      "phoneNumber": "+71234567890",
+      "id": 11,
+      "role": "student",
+      "emailConfirmed": false,
+      "phoneNumberConfirmed": false
     }
   ],
   "groups": [
@@ -172,8 +200,8 @@
           "groupKey": "2",
           "userID": 1,
           "name": "Student 2",
-          "paymentstatus": "Не оплачено",
-          "paymentDate": "Нет",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "28.12.2023",
           "price": 500
         },
         {
@@ -291,17 +319,27 @@
     },
     {
       "id": 5,
-      "groupName": "й",
-      "groupCode": "mwMNMy5b2K",
-      "description": "q",
-      "paymentDate": "12",
-      "price": "500",
-      "locationGroup": "q",
+      "groupName": "Группа № 8",
+      "groupCode": "egHGH5EGCG",
+      "description": "Без опозданий",
+      "paymentDate": "15",
+      "price": "5000",
+      "locationGroup": "ул Школьная 7",
       "shedule": [
-        "Пн: 03:58 - 07:58 "
+        "Ср: 10:00 - 14:30 "
       ],
-      "trainerID": 5,
-      "students": [],
+      "trainerID": 10,
+      "students": [
+        {
+          "key": 1,
+          "groupKey": 5,
+          "userID": 11,
+          "name": "Кузнецов Михаил",
+          "paymentstatus": "Оплачено",
+          "paymentDate": "29.12.2023",
+          "price": "5000"
+        }
+      ],
       "count": 0
     }
   ],

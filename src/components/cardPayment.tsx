@@ -55,8 +55,8 @@ const CardPayment: React.FC<CardPaymentProps> = (props) => {
   );
   return (
     <>
-      <Card size="small" title={data.name} className="w-full">
-        <div>Количество участников: {data.count}</div>
+      <Card size="small" title={data.groupName} className="w-full">
+        <div>Количество участников: {data.students.length}</div>
         <div>
           Время занятий:{" "}
           <Space wrap>
